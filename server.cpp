@@ -2,86 +2,134 @@
 #include<iostream>
 #include<string.h>
 #include<fstream>
+#define CHARLEN 100
 using namespace std;
-typedef struct user
-{
-    char username[100];
-    char password[100];
-    char gamedata[100];
-}USERDB;
-
-void getdata(char *data,USERDB *userr,int n){
-    for(int i=0;i<n;i++){
-    if(strcmp(data,userr[i].username)==0){
-        cout<<"test yes"<<endl;
+//class userdb
+class userdb{
+private:
+    char username[CHARLEN];
+    char password[CHARLEN];
+    char gamedata[CHARLEN];
+public:
+    void loaduserdb();
+};
+void userdb::loaduserdb(){
+    ifstream userfile;
+    cout<<"Loading user data"<<endl;
+    userfile.open("db/user.txt");
+    int i;
+    if (userfile.is_open())
+    {
+        i=0;
+        while (!userfile.eof())
+        {
+            userfile >> username;
+            userfile >> password;
+            userfile >> gamedata;
+            i++;
+        }
     }
-    }
+    userfile.close();
+    cout<<"Loaded user data"<<endl;
 }
-int main()
-{
-    cout<<"Server starting"<<endl;
-    cout<<"Loading config"<<endl;
+//end class userdb
+//class configdb
+class configdb{
+private:
+    int port;
+public:
+    void loadconfig();
+    int getport();
+};
+int configdb::getport(){
+    return port;
+}
+void configdb::loadconfig(){
     ifstream configfile;
+    char temp[CHARLEN];
+    cout<<"Loading config"<<endl;
     configfile.open("db/config.txt");
-    char config[10][100];
     int i;
     if (configfile.is_open())
     {
         i=0;
         while (!configfile.eof())
         {
-            configfile >> config[i];
-            configfile >> config[i];
+            configfile >>temp;
+            configfile >> port;
             i++;
         }
     }
-    cout<<"Loaded config"<<endl;
     configfile.close();
-    cout<<"Loading user data"<<endl;
-    ifstream userfile;
-    userfile.open("db/user.txt");
-    struct user userdb[100];
-    if (userfile.is_open())
-    {
-        i=0;
-        while (!userfile.eof())
-        {
-            userfile >> userdb[i].username;
-            userfile >> userdb[i].password;
-            userfile >> userdb[i].gamedata;
-            i++;
-        }
-    }
-    cout<<"Loaded user data"<<endl;
-    userfile.close();
-
-    cout<<"listener port "<<atoi(config[0])<<endl;
+    cout<<"Loaded config"<<endl;
+}
+//end class configdb
+//class tcp
+class tcp{
+private:
+    char data[CHARLEN];
     sf::TcpListener listener;
-    if (listener.listen(atoi(config[0])) != sf::Socket::Done)
-    {
-        cout<<"Error listener port "<<atoi(config[0])<<endl;
-    }
-    while(1){
-    cout<<"waiting for connection..."<<endl;
     sf::TcpSocket client;
-    char data[100];
-    std::size_t received;
+    size_t received;
+public:
+    void listentcp(int port);
+    void waitingtcp();
+    void receivedata();
+    void senddata(char *sdata);
+    char* getdata();
+};
+char* tcp::getdata(){
+    return data;
+}
+void tcp::listentcp(int port){
+    cout<<"listener port "<<port<<endl;
+    if (listener.listen(port) != sf::Socket::Done)
+    {
+        cout<<"Error listener port "<<port<<endl;
+    }
+}
+void tcp::waitingtcp(){
+    cout<<"waiting for connection..."<<endl;
     if (listener.accept(client) != sf::Socket::Done)
     {
     }
-    cout<<"connecting "<<endl;
-    if (client.receive(data, 100, received) != sf::Socket::Done)
+    cout<<"connected "<<endl;
+}
+void tcp::receivedata(){
+    if (client.receive(data, CHARLEN, received) != sf::Socket::Done)
     {
     // error...
     }
-    cout << "Received " << received << " bytes"<<endl;
-    char senddata[100];
-    cout << "data :"<<data<<endl;
-    getdata(data,userdb,i);
-    if (client.send(data, 100) != sf::Socket::Done)
+     cout << "Received " << received << " bytes"<<endl;
+     cout << "data :"<<data<<endl;
+}
+void tcp::senddata(char *sdata){
+    if (client.send(sdata, CHARLEN) != sf::Socket::Done)
     {
     // error...
     }
+}
+
+//end class tcp
+int main()
+{
+    cout<<"Server starting"<<endl;
+    //object config
+    configdb configdata;
+    configdata.loadconfig();
+    //end loadcconfig
+    //object userdb
+    userdb userdata;
+    userdata.loaduserdb();
+    //end loaduserdata
+    //listener tcp
+    tcp tcpsocket;
+    tcpsocket.listentcp(configdata.getport());
+    //waiting for connection
+    while(1){
+    tcpsocket.waitingtcp();
+    tcpsocket.receivedata();
+    tcpsocket.senddata(tcpsocket.getdata());
 }
     return 0;
 }
