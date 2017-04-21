@@ -5,14 +5,36 @@
 #define CHARLEN 100
 using namespace std;
 //class userdb
-class userdb{
-private:
+typedef struct userdbs{
     char username[CHARLEN];
     char password[CHARLEN];
     char gamedata[CHARLEN];
+}DBuser;
+class userdb{
+private:
+    DBuser dbuser[CHARLEN];
+    int numid;
 public:
+    userdb();
+    ~userdb();
     void loaduserdb();
+    bool login(char *user,char *password);
 };
+bool userdb::login(char *user,char *password){
+    for(int i=0;i<numid;i++){
+        if(strcmp(user,dbuser[i].username)==0){
+            if(strcmp(password,dbuser[i].password)==0){
+                cout<<"pass ok";
+                return 1;
+            }else
+                cout<<"user ok";
+                return 0;
+            }
+    }
+    return 0;
+}
+userdb::userdb(){numid=0;}
+userdb::~userdb(){}
 void userdb::loaduserdb(){
     ifstream userfile;
     cout<<"Loading user data"<<endl;
@@ -23,12 +45,13 @@ void userdb::loaduserdb(){
         i=0;
         while (!userfile.eof())
         {
-            userfile >> username;
-            userfile >> password;
-            userfile >> gamedata;
+            userfile >> dbuser[i].username;
+            userfile >> dbuser[i].password;
+            userfile >> dbuser[i].gamedata;
             i++;
         }
     }
+    numid=i;
     userfile.close();
     cout<<"Loaded user data"<<endl;
 }
@@ -129,7 +152,8 @@ int main()
     while(1){
     tcpsocket.waitingtcp();
     tcpsocket.receivedata();
+    userdata.login(tcpsocket.getdata(),tcpsocket.getdata());
     tcpsocket.senddata(tcpsocket.getdata());
-}
+    }
     return 0;
 }
