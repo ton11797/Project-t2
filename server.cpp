@@ -18,24 +18,44 @@ public:
     userdb();
     ~userdb();
     void loaduserdb();
-    bool login(char *user,char *password);
+    int login(char *user,char *password);
+    char* getgamedata(int id);
+    void registe(char *username,char *password);
+    void saveuserdb();
+    void save(char *data,int id);
 };
-bool userdb::login(char *user,char *password){
+void userdb::save(char *data,int id){
+    strcpy(dbuser[id].gamedata,data);
+}
+void userdb::saveuserdb(){
+    ofstream userfile;
+    userfile.open ("db/user.txt");
+    for(int i =0;i<numid;i++){
+        userfile << dbuser[i].username<<" "<<dbuser[i].password<<" "<<dbuser[i].gamedata<<endl;
+    }
+    userfile.close();
+}
+char* userdb::getgamedata(int id){
+    if(id != -1)return dbuser[id].gamedata;
+    return "nousername";
+}
+int userdb::login(char *user,char *password){
     for(int i=0;i<numid;i++){
         if(strcmp(user,dbuser[i].username)==0){
             if(strcmp(password,dbuser[i].password)==0){
-                cout<<"pass ok";
-                return 1;
+                cout<<"pass ok"<<endl;
+                return i;
             }else
-                cout<<"user ok";
-                return 0;
+                cout<<"user ok"<<endl;
+                return -2;
             }
     }
-    return 0;
+    return -1;
 }
 userdb::userdb(){numid=0;}
 userdb::~userdb(){}
 void userdb::loaduserdb(){
+
     ifstream userfile;
     cout<<"Loading user data"<<endl;
     userfile.open("db/user.txt");
@@ -51,9 +71,15 @@ void userdb::loaduserdb(){
             i++;
         }
     }
-    numid=i;
+    numid=i-1;
     userfile.close();
-    cout<<"Loaded user data"<<endl;
+    cout<<"Loaded user data "<<numid+1<<" user"<<endl;
+}
+void userdb::registe(char *username,char *password){
+    strcpy(dbuser[numid].username,username);
+    strcpy(dbuser[numid].password,password);
+    strcpy(dbuser[numid].gamedata,"0/0/0/0/0/0/0/0/0");
+    numid++;
 }
 //end class userdb
 //class configdb
@@ -132,7 +158,6 @@ void tcp::senddata(char *sdata){
     // error...
     }
 }
-
 //end class tcp
 int main()
 {
@@ -149,11 +174,47 @@ int main()
     tcp tcpsocket;
     tcpsocket.listentcp(configdata.getport());
     //waiting for connection
+    int id;
+    char username[CHARLEN],password[CHARLEN],type[CHARLEN];
     while(1){
+    strcpy(username,"");
+    strcpy(password,"");
     tcpsocket.waitingtcp();
     tcpsocket.receivedata();
-    userdata.login(tcpsocket.getdata(),tcpsocket.getdata());
-    tcpsocket.senddata(tcpsocket.getdata());
+    strcpy(type,tcpsocket.getdata());
+    tcpsocket.receivedata();
+    strcpy(username,tcpsocket.getdata());
+    tcpsocket.receivedata();
+    strcpy(password,tcpsocket.getdata());
+    if(strcmp(type,"1")==0){
+        id = userdata.login(username,password);
+        if(id >=0 )tcpsocket.senddata(userdata.getgamedata(id));
+        if(id ==-2 )tcpsocket.senddata("password worng");
+        if(id ==-1 )tcpsocket.senddata("username worng");
+    }
+    if(strcmp(type,"2")==0){
+        id = userdata.login(username,password);
+        if(id == -1){
+        cout<<"register new user";
+        userdata.registe(username,password);
+        userdata.saveuserdb();
+        tcpsocket.senddata("registed");
+        }else{
+        tcpsocket.senddata("same username");
+        }
+    }
+    if(strcmp(type,"3")==0){
+        id = userdata.login(username,password);
+        if(id >=0){
+        tcpsocket.receivedata();
+        userdata.save(tcpsocket.getdata(),id);
+        userdata.saveuserdb();
+        tcpsocket.senddata("done");
+        }else{
+        tcpsocket.senddata("password worng");
+        }
+    }
+
     }
     return 0;
 }
