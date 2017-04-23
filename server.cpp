@@ -190,8 +190,8 @@ int main()
     if(strcmp(type,"1")==0){
         id = userdata.login(username,password);
         if(id >=0 )tcpsocket.senddata(userdata.getgamedata(id));
-        if(id ==-2 )tcpsocket.senddata("password worng");
-        if(id ==-1 )tcpsocket.senddata("username worng");
+        if(id ==-2 )tcpsocket.senddata("1");
+        if(id ==-1 )tcpsocket.senddata("0");
     }
 
     if(strcmp(type,"2")==0){
@@ -200,9 +200,9 @@ int main()
         cout<<"register new user";
         userdata.registe(username,password);
         userdata.saveuserdb();
-        tcpsocket.senddata("registed");
+        tcpsocket.senddata("1");
         }else{
-        tcpsocket.senddata("same username");
+        tcpsocket.senddata("0");
         }
     }
     if(strcmp(type,"3")==0){

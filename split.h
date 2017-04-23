@@ -2,7 +2,7 @@
 #include"linklist.h"
 using namespace std;
 
-split(char word[],ll A)
+int split(char word[],int *a)
 {
     int positioncomma[100],valueofcomma=0,positionsplit=0;
     node *t;
@@ -10,7 +10,7 @@ split(char word[],ll A)
     for(int i=0;i<100;i++)
     {
 
-        if(word[i]==',')
+        if(word[i]=='/')
         {
             positioncomma[valueofcomma]=i;
             //cout<<positioncomma[valueofcomma]<<endl;
@@ -22,7 +22,7 @@ split(char word[],ll A)
         char copychar[100];
         for(int j=0;j<100;j++)
         {
-            if(word[positionsplit]!=','&&word[positionsplit]!='\0')
+            if(word[positionsplit]!='/'&&word[positionsplit]!='\0')
             {
              copychar[j]=word[positionsplit];
              positionsplit++;
@@ -40,8 +40,6 @@ split(char word[],ll A)
         A.addnode(t);
 
     }
-    A.showall();
-
-
-
+    A.showall(a);
+    return A.getsize();
 }
