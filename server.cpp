@@ -23,7 +23,24 @@ public:
     void registe(char *username,char *password);
     void saveuserdb();
     void save(char *data,int id);
+    void showall();
+    void changepass(char *user,char *password);
 };
+void userdb::changepass(char *user,char *password){
+    int i;
+    for(i=0;i<numid;i++){
+        if(strcmp(user,dbuser[i].username)==0){
+            break;
+        }
+    }
+    strcpy(dbuser[i].password,password);
+    saveuserdb();
+}
+void userdb::showall(){
+    for(int i=0;i<numid;i++){
+        cout<<dbuser[i].username<<endl;
+    }
+}
 void userdb::save(char *data,int id){
     strcpy(dbuser[id].gamedata,data);
 }
@@ -171,11 +188,16 @@ int main()
     userdata.loaduserdb();
     //end loaduserdata
     //listener tcp
+    int mode=1;
+    char username[CHARLEN],password[CHARLEN],type[CHARLEN];
+    cout<<"server mode 1.normal mode 2.admin mode [1-2]: ";
+    cin>>mode;
+    if(mode==1){
+    normal:;
     tcp tcpsocket;
     tcpsocket.listentcp(configdata.getport());
     //waiting for connection
     int id;
-    char username[CHARLEN],password[CHARLEN],type[CHARLEN];
     while(1){
     strcpy(username,"");
     strcpy(password,"");
@@ -219,7 +241,21 @@ int main()
     }else{
     tcpsocket.senddata("username error");
     }
-
     }
+    }else{
+        while(1){
+        cout<<"      1.Show all user"<<endl<<"      2.Add user"<<endl<<"      3.Change password user"<<endl<<"      4.Remove user"<<endl<<"      5.switch to normal mode"<<endl<<"      6.Stop server"<<endl<<"input[1-6]: ";
+        cin>>mode;
+        switch(mode){
+        case 1:userdata.showall();break;
+        case 2:cout<<"Add new(username password) : ";cin>>username>>password;userdata.registe(username,password);break;
+        case 3:cout<<"Change pass (username new_password) : ";cin>>username>>password;userdata.changepass(username,password);break;
+        case 4:;break;
+        case 5:goto normal;;break;
+        case 6:return 0;
+        }
+        }
+    }
+
     return 0;
 }
