@@ -11,6 +11,7 @@ class collider
         void Move(float dx,float dy){player.move(dx,dy);}
         collider(sf::RectangleShape &player);
         bool checkcollider(collider player,float push);
+        bool checkcolliderforplant(collider player);
         sf::Vector2f Getposition(){return player.getPosition();}
         sf::Vector2f Gethalfsize(){return player.getSize()/2.0f;}
         virtual ~collider();
@@ -81,7 +82,33 @@ collider::collider(sf::RectangleShape &player):
 {
 
 }
+bool collider::checkcolliderforplant(collider player)
+{
+    sf::Vector2f otherposition=player.Getposition();
+    sf::Vector2f otherhalfsize=player.Gethalfsize();
+    sf::Vector2f currentposition=Getposition();
+    sf::Vector2f currenthalfsize=Gethalfsize();
+    float checkx=otherposition.x-currentposition.x;
+    float checky=otherposition.y-currentposition.y;
+    float intersecx,intersecy;
+    if(checkx<0)
+    {
+        intersecx= -(checkx)-(otherhalfsize.x+currenthalfsize.x);
+    }
+    if(checkx>=0) intersecx= (checkx)-(otherhalfsize.x+currenthalfsize.x);
+    if(checky<0)
+    {
+        intersecy= -(checky)-(otherhalfsize.y+currenthalfsize.y);
+    }
+    if(checky>=0) intersecy= (checky)-(otherhalfsize.y+currenthalfsize.y);
+    if(intersecx<0.0f&&intersecy<0.0f)
+    {
+        //cout<<"eiei"<<endl;
+        return true;
+    }
+    return false;
 
+}
 collider::~collider()
 {
     //dtor

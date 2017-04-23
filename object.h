@@ -11,7 +11,7 @@ class object
         virtual ~object();
         void Draw(sf::RenderWindow &window);
         collider getcollider(){return collider(body);}
-        //void plantorbuild();
+        void plantorbuild(Player player);
 
     protected:
 
@@ -52,13 +52,13 @@ object::~object()
 {
     //dtor
 }
-void plant(sf::RenderWindow window,object seed,int mapcheck[][19])
+void object::plantorbuild(Player player)
 {
-   /* if(mapcheck[seed.getPosition().x/50][body.getPosition().y/50]==0)
+    if(player.Getposition().x/50==body.getPosition().x/50&&player.Getposition().y/50==body.getPosition().y/50)
     {
-        window.draw(body);
-        mapcheck[seed.getPosition().x/50][body.getPosition().y/50]==1;
+        cout<<"eiei"<<endl;
 
-    }*/
+    }
+
 }
 #endif // OBJECT_H

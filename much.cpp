@@ -5,7 +5,6 @@
 #include "object.h"
 #include "Player.h"
 #include "collider.h"
-
 using namespace std;
 
 int main()
@@ -48,7 +47,7 @@ int main()
     int turn=0;
     coop.loadFromFile("resource/Coop.png");
     object Barnn(&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f));
-    object Coop(&coop,sf::Vector2f(112.0f,128.0f),sf::Vector2f(80.0f,350.0f));
+    object Coop(&coop,sf::Vector2f(50.0f,50.0f),sf::Vector2f(80.0f,350.0f));
     object kop(&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f));
     object kop1(&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f));
     object kop2(&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(1900.0f,0.0f));
@@ -77,15 +76,18 @@ int main()
 
         }
         player1.update(deltatime,movespeed,turn);
-        Barnn.getcollider().checkcollider(player1.getcollider(),1.0f);
-        Coop.getcollider().checkcollider(player1.getcollider(),1.0f);
+        //Barnn.getcollider().checkcollider(player1.getcollider(),1.0f);
+       // Coop.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop1.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop2.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop3.getcollider().checkcollider(player1.getcollider(),1.0f);
+        Coop.getcollider().checkcolliderforplant(player1.getcollider());
         window.clear(sf::Color(150,150,150));
         window.draw(bgg);
         Barnn.Draw(window);
+        //Barnn.plantorbuild(player1);
+        Coop.plantorbuild(player1);
         kop.Draw(window);
         kop1.Draw(window);
         kop2.Draw(window);
