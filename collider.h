@@ -10,12 +10,9 @@ class collider
     public:
         void Move(float dx,float dy){player.move(dx,dy);}
         collider(sf::RectangleShape &player);
-        void checkcollider(collider player,float push);
+        bool checkcollider(collider player,float push);
         sf::Vector2f Getposition(){return player.getPosition();}
         sf::Vector2f Gethalfsize(){return player.getSize()/2.0f;}
-        void showposition(){
-           cout<<"kuy";
-        }
         virtual ~collider();
 
 
@@ -23,7 +20,7 @@ class collider
 
     private:sf::RectangleShape &player;
 };
-void  collider::checkcollider(collider player,float push)
+bool  collider::checkcollider(collider player,float push)
 {
     sf::Vector2f otherposition=player.Getposition();
     sf::Vector2f otherhalfsize=player.Gethalfsize();
@@ -36,12 +33,12 @@ void  collider::checkcollider(collider player,float push)
     {
         intersecx= -(checkx)-(otherhalfsize.x+currenthalfsize.x);
     }
-    else intersecx= (checkx)-(otherhalfsize.x+currenthalfsize.x);
+    if(checkx>=0) intersecx= (checkx)-(otherhalfsize.x+currenthalfsize.x);
     if(checky<0)
     {
         intersecy= -(checky)-(otherhalfsize.y+currenthalfsize.y);
     }
-    else intersecy= (checky)-(otherhalfsize.y+currenthalfsize.y);
+    if(checky>=0) intersecy= (checky)-(otherhalfsize.y+currenthalfsize.y);
 
     if(intersecx<0.0f&&intersecy<0.0f)
     {
@@ -52,11 +49,10 @@ void  collider::checkcollider(collider player,float push)
             {
                 Move(intersecx*(1.0f-push),0.0f);
                 player.Move(-(intersecx*push),0.0f);
-                cout<<"1";
             }
             else
             {
-                Move(intersecx*(1.0f-push),0.0f);
+                Move(-intersecx*(1.0f-push),0.0f);
                  player.Move(intersecx*push,0.0f);
             }
         }
@@ -64,21 +60,21 @@ void  collider::checkcollider(collider player,float push)
         {
              if(checky>0.0f)
             {
-                Move(intersecy*(1.0f-push),0.0f);
+                Move(0.0f,intersecy*(1.0f-push));
                  player.Move(0.0f,-(intersecy*push));
             }
             else
             {
-                Move(intersecy*(1.0f-push),0.0f);
+                Move(0.0f,-intersecy*(1.0f-push));
                  player.Move(0.0f,intersecy*push);
             }
         }
-            //return true;
+            return true;
 
 
 
     }
-    // return false;
+     return false;
 }
 collider::collider(sf::RectangleShape &player):
     player(player)

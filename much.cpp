@@ -16,7 +16,7 @@ int main()
     split(wordtest);*/
     //coliider col(&player1);
     sf::RenderWindow window;
-     sf::Texture playertexture,bg;
+     sf::Texture playertexture,bg,cat;
      sf::Vector2i position;
     window.create(sf::VideoMode(1900,950)," FARM EIEI ",sf::Style::Resize|sf::Style::Close);//Style คือ รูปแบบของดด้านบนที่เราต้องการ close จะมีปุ่มปิด
     sf::Vector2u size(640,480);
@@ -44,8 +44,9 @@ int main()
     sf::Clock clock;
     sf::Time time;
     int turn=0;
-    object ob1(&playertexture,sf::Vector2f(100.0f,200.0f),sf::Vector2f(900.0f,250.0f));
-    object ob2(&playertexture,sf::Vector2f(100.0f,200.0f),sf::Vector2f(100.0f,100.0f));
+    cat.loadFromFile("cat.jpg");
+    object ob1(&cat,sf::Vector2f(100.0f,200.0f),sf::Vector2f(900.0f,250.0f));
+    object ob2(&cat,sf::Vector2f(100.0f,200.0f),sf::Vector2f(1100.0f,500.0f));
     Player player1(&playertexture,sf::Vector2u(4,4),0.3f,sf::Vector2f(500.0f,600.0f));
     Player player2(&playertexture,sf::Vector2u(4,4),0.3f,sf::Vector2f(500.0f,500.0f));
     while (window.isOpen())
@@ -68,21 +69,13 @@ int main()
 
         }
         player1.update(deltatime,movespeed,turn);
-        player1.getcollider();
-        //player2.update(deltatime,movespeed,turn);
         ob1.getcollider().checkcollider(player1.getcollider(),1.0f);
-        //player1.Move(-1.0f,);
-        //ob1.getcollider().Getposition();
-        //checkcollider(player1.getcollider(),1.0f);
-        //.checkcolli(player1.getcollider(),1.0f);
-        ob2.getcollider().checkcollider(player1.getcollider(),1.0f);
+        ob2.getcollider().checkcollider(player1.getcollider(),0.9f);
         window.clear(sf::Color(150,150,150));
         window.draw(bgg);
-        //window.draw(player);
         ob1.Draw(window);
         ob2.Draw(window);
         player1.Draw(window);
-        //player2.Draw(window);
         window.display();
         turn++;
 

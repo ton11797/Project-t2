@@ -2,10 +2,9 @@
 #include"linklist.h"
 using namespace std;
 
-split(char word[])
+split(char word[],ll A)
 {
     int positioncomma[100],valueofcomma=0,positionsplit=0;
-    ll A;
     node *t;
 
     for(int i=0;i<100;i++)
@@ -14,7 +13,7 @@ split(char word[])
         if(word[i]==',')
         {
             positioncomma[valueofcomma]=i;
-            cout<<positioncomma[valueofcomma]<<endl;
+            //cout<<positioncomma[valueofcomma]<<endl;
             valueofcomma++;
         }
     }
