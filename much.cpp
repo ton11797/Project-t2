@@ -3,6 +3,9 @@
 #include "split.h"
 #include <SFML/Graphics.hpp>
 #include "animetion.h"
+#include "object.h"
+#include "Player.h"
+#include "collider.h"
 using namespace std;
 
 int main()
@@ -11,6 +14,7 @@ int main()
     node *t;
     char wordtest[100]={'s','u','g',',','k','u','y',',','s','c','c',',','s','c',',','s','h',',','f','y','p',',','t','y','u'},data[100];
     split(wordtest);*/
+    //coliider col(&player1);
     sf::RenderWindow window;
      sf::Texture playertexture,bg;
      sf::Vector2i position;
@@ -39,6 +43,11 @@ int main()
     float deltatime=0.0f;
     sf::Clock clock;
     sf::Time time;
+    int turn=0;
+    object ob1(&playertexture,sf::Vector2f(100.0f,200.0f),sf::Vector2f(900.0f,250.0f));
+    object ob2(&playertexture,sf::Vector2f(100.0f,200.0f),sf::Vector2f(100.0f,100.0f));
+    Player player1(&playertexture,sf::Vector2u(4,4),0.3f,sf::Vector2f(500.0f,600.0f));
+    Player player2(&playertexture,sf::Vector2u(4,4),0.3f,sf::Vector2f(500.0f,500.0f));
     while (window.isOpen())
     {
        deltatime=clock.restart().asSeconds();
@@ -50,9 +59,6 @@ int main()
                 case sf::Event::Closed:
                     window.close();
                     break;
-                case sf::Event::Resized:
-                    cout<<"New window width="<<Event.size.width<< "New window height="<<Event.size.height<<endl;
-                    break;
                 case sf::Event::TextEntered:
                     if(Event.text.unicode<128)
                     {
@@ -61,48 +67,24 @@ int main()
             }
 
         }
-
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        {
-            player.move(-movespeed,0.0f);
-            animation.update(1,deltatime);
-            player.setTextureRect(animation.uvRect);
-            //player.getPoint.x();
-            //position=player.getPosition().x;
-            //cout<<player.getPosition();
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        {
-            player.move(0.0f,+movespeed);
-            animation.update(0,deltatime);
-            player.setTextureRect(animation.uvRect);
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        {
-            player.move(movespeed,0.0f);
-            animation.update(2,deltatime);
-            player.setTextureRect(animation.uvRect);
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        {
-            player.move(0.0f,-movespeed);
-            animation.update(3,deltatime);
-            player.setTextureRect(animation.uvRect);
-        } //keyboard input
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::B))
-        {
-            cout<<"X = "<<static_cast<int>(player.getPosition().x/50)<<" Y = "<<static_cast<int>(player.getPosition().y/50)<<endl;
-            //เดี่ยวมีปลูกผักนะ
-        }
-        if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
-        {
-            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            player.setPosition(static_cast<float>(mousePos.x),static_cast<float>(mousePos.y));
-        }
+        player1.update(deltatime,movespeed,turn);
+        player1.getcollider();
+        //player2.update(deltatime,movespeed,turn);
+        ob1.getcollider().checkcollider(player1.getcollider(),1.0f);
+        //player1.Move(-1.0f,);
+        //ob1.getcollider().Getposition();
+        //checkcollider(player1.getcollider(),1.0f);
+        //.checkcolli(player1.getcollider(),1.0f);
+        ob2.getcollider().checkcollider(player1.getcollider(),1.0f);
         window.clear(sf::Color(150,150,150));
         window.draw(bgg);
-        window.draw(player);
+        //window.draw(player);
+        ob1.Draw(window);
+        ob2.Draw(window);
+        player1.Draw(window);
+        //player2.Draw(window);
         window.display();
+        turn++;
 
     }
 	return 0;
