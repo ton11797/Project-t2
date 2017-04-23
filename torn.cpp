@@ -7,83 +7,20 @@
 #include <SFML/Network.hpp>
 #include<fstream>
 using namespace std;
-class tcp
-{
-private:
-    char data[100];
-    int port;
-    char ip[100];
-    sf::TcpSocket socket;
-    sf::Socket::Status status;
-    std::size_t received;
-public:
-    bool con;
-    tcp();
-    void connect();
-    void sent(char *dataa);
-    void receive();
-    char* getdata();
-};
-tcp::tcp()
-{
-    ifstream configfile;
-    char temp[100];
-    configfile.open("config.txt");
-    if (configfile.is_open())
-    {
-        while (!configfile.eof())
-        {
-            configfile >>temp;
-            configfile >> port;
-            configfile >>temp;
-            configfile >> ip;
-        }
-    }
-    status = socket.connect(ip, port);
-    configfile.close();
-    if (status != sf::Socket::Done)
-    {
-        con=0;
-    }
-    else
-    {
-        con=1;
-    }
-}
-void tcp::connect()
-{
-    //status = socket.connect(ip, port);
-    if (status != sf::Socket::Done)
-    {
-        con=0;
-    }
-    else
-    {
-        con=1;
-    }
-}
-void tcp::sent(char *dataa)
-{
-    if (socket.send(dataa, 100) != sf::Socket::Done)
-    {
-        cout<<"sent error";
-        con=0;
-    }
-}
-void tcp::receive()
-{
-    if (socket.receive(data, 100, received) != sf::Socket::Done)
-    {
-        cout<<"sent receive";
-    }
-}
-char* tcp::getdata()
-{
-
-    return data;
-}
+void getuserinput(sf::RenderWindow &window,char *out,sf::Texture &texture);
+void waitenter(sf::RenderWindow &window,sf::Texture &texture);
 Menu::Menu(float width, float height)
 {
+    if(!texture.loadFromFile("resource\\menu.jpg"));
+    if(!usertx.loadFromFile("resource\\loginuserp.png"));
+    if(!passtx.loadFromFile("resource\\loginpass.png"));
+    if(!nouser.loadFromFile("resource\\nousername.png"));
+    if(!passworng.loadFromFile("resource\\password wrong.png"));
+    if(!sameuser.loadFromFile("resource\\username exists.png"));
+    if(!registered.loadFromFile("resource\\registered.png"));
+    if(!blank.loadFromFile("resource\\blank.png"));
+    if(!cantconnect.loadFromFile("resource\\cantconnect.png"));
+    background.setTexture(texture);
     if (!font.loadFromFile("arial.ttf"))
     {
         // handle error
@@ -99,21 +36,21 @@ Menu::Menu(float width, float height)
     menu[1].setCharacterSize(40);
     menu[1].setFont(font);
     menu[1].setStyle(sf::Text::Bold);
-    menu[1].setColor(sf::Color(232,163,12));
+    menu[1].setColor(sf::Color::White);
     menu[1].setString("Login");
     menu[1].setPosition(sf::Vector2f(width / 2, height /(MAX_NUMBER_OF_ITEMS + 1) * 1.1));
 
     menu[2].setCharacterSize(40);
     menu[2].setFont(font);
     menu[2].setStyle(sf::Text::Bold);
-    menu[2].setColor(sf::Color(232,163,12));
+    menu[2].setColor(sf::Color::White);
     menu[2].setString("Ranking");
     menu[2].setPosition(sf::Vector2f(width / 2, height /(MAX_NUMBER_OF_ITEMS + 1) * 1.2));
 
     menu[3].setCharacterSize(40);
     menu[3].setFont(font);
     menu[3].setStyle(sf::Text::Bold);
-    menu[3].setColor(sf::Color(232,163,12));
+    menu[3].setColor(sf::Color::White);
     menu[3].setString("Exit");
     menu[3].setPosition(sf::Vector2f(width / 2, height /(MAX_NUMBER_OF_ITEMS + 1) * 1.3));
 
@@ -133,7 +70,7 @@ void Menu::MoveUp()
 {
     if (selectedItemIndex - 1 >= 0)
     {
-        menu[selectedItemIndex].setColor(sf::Color(232,163,12));
+        menu[selectedItemIndex].setColor(sf::Color::White);
         selectedItemIndex--;
         menu[selectedItemIndex].setColor(sf::Color::Red);
     }
@@ -142,106 +79,16 @@ void Menu::MoveDown()
 {
     if (selectedItemIndex + 1 < MAX_NUMBER_OF_ITEMS)
     {
-        menu[selectedItemIndex].setColor(sf::Color(232,163,12));
+        menu[selectedItemIndex].setColor(sf::Color::White);
         selectedItemIndex++;
         menu[selectedItemIndex].setColor(sf::Color::Red);
     }
 }
 
-void getuserinput(sf::RenderWindow &window,char *out,sf::Texture &texture)
-{
-    int n=0;
-    sf::String sentence;
-    sf::Text username;
-    sf::Font font;
-    font.loadFromFile("arial.ttf");
-    sf::Sprite background(texture);
-    username.setFont(font);
-    username.setCharacterSize(24);
-    username.setFillColor(sf::Color::White);
-    while (window.isOpen()&&n==0)
-    {
-        sf::Event eventrg;
-        while (window.pollEvent(eventrg))
-        {
-            switch(eventrg.type)
-            {
-            case sf::Event::Closed:
-                window.close();
-                break;
-            case sf::Event::KeyPressed:
-                if(eventrg.key.code == sf::Keyboard::Return)
-                {
-                    n++;
-                    break;
-                }
-            case sf::Event::TextEntered:
-                if(eventrg.text.unicode == 59 && sentence.getSize()>0)
-                {
-                    sentence.erase(sentence.getSize()-1,sentence.getSize());
-                }
-                else if((eventrg.text.unicode >= 48 && eventrg.text.unicode <= 57)||(eventrg.text.unicode >= 65 && eventrg.text.unicode <= 90)||(eventrg.text.unicode >= 97 && eventrg.text.unicode <= 122))
-                {
-                    sentence += static_cast<char>(eventrg.text.unicode);
-                }
-                username.setString(sentence);
-            }
-            window.clear();
-            window.draw(background);
-            username.setPosition(600,280);
-            window.draw(username);
-            window.display();
-        }
-
-    }
-    strcpy(out,sentence.toAnsiString().c_str());
-}
-
-void waitenter(sf::RenderWindow &window,sf::Texture &texture)
-{
-    sf::Event eventrg;
-    sf::Sprite background(texture);
-    while (window.isOpen())
-    {
-        while (window.pollEvent(eventrg))
-        {
-            switch(eventrg.type)
-            {
-            case sf::Event::Closed:
-                window.close();
-                break;
-            case sf::Event::TextEntered:
-                goto outwait;
-            }
-            window.clear();
-            window.draw(background);
-            window.display();
-        }
-    }
-outwait:
-    ;
-}
-int main()
-{
-    char user[100],pass[100];
-    char type[100],re[100];
-    int userdata[100],num;
-    tcp *tcpsocket;
-    ///////////////////////
-    sf::Texture texture,usertx,passtx,nouser,passworng,sameuser,registered,blank,cantconnect;
-    if(!texture.loadFromFile("resource\\menu.jpg"));
-    if(!usertx.loadFromFile("resource\\loginuserp.png"));
-    if(!passtx.loadFromFile("resource\\loginpass.png"));
-    if(!nouser.loadFromFile("resource\\nousername.png"));
-    if(!passworng.loadFromFile("resource\\password wrong.png"));
-    if(!sameuser.loadFromFile("resource\\username exists.png"));
-    if(!registered.loadFromFile("resource\\registered.png"));
-    if(!blank.loadFromFile("resource\\blank.png"));
-    if(!cantconnect.loadFromFile("resource\\cantconnect.png"));
-    sf::Sprite background(texture);
-    sf::RenderWindow window(sf::VideoMode(1500, 700), "Stardew walley!!");
-    Menu menu(window.getSize().x, (window.getSize().y)/0.35);
-    int n=0;
+int Menu::open(sf::RenderWindow &window,char *userin,char *passin,int *userdatain){
+    user=userin;
+    pass=passin;
+    userdata=userdatain;
     while (window.isOpen())
     {
         sf::Event event;
@@ -254,20 +101,19 @@ int main()
                 switch (event.key.code)
                 {
                 case sf::Keyboard::W:
-                    menu.MoveUp();
+                    MoveUp();
                     break;
-
                 case sf::Keyboard::S:
-                    menu.MoveDown();
+                    MoveDown();
                     break;
                 case sf::Keyboard::Down:
-                    menu.MoveDown();
+                    MoveDown();
                     break;
                 case sf::Keyboard::Up:
-                    menu.MoveUp();
+                    MoveUp();
                     break;
                 case sf::Keyboard::Return:
-                    switch (menu.GetPressedItem())
+                    switch (GetPressedItem())
                     {
                     case 0:
                         std::cout << "Register button has been pressed" << std::endl;
@@ -351,6 +197,7 @@ int main()
                         std::cout << "Ranking button has been pressed "<< std::endl;
                         break;
                     case 3:
+                        num=0;
                         window.close();
                         break;
                     }
@@ -365,11 +212,95 @@ int main()
         }
         window.clear();
         window.draw(background);
-        menu.draw(window);
+        draw(window);
         window.display();
     }
-
     gamestart:;
+    return num;
+}
+void getuserinput(sf::RenderWindow &window,char *out,sf::Texture &texture)
+{
+    int n=0;
+    sf::String sentence;
+    sf::Text username;
+    sf::Font font;
+    font.loadFromFile("arial.ttf");
+    sf::Sprite background(texture);
+    username.setFont(font);
+    username.setCharacterSize(24);
+    username.setFillColor(sf::Color::White);
+    while (window.isOpen()&&n==0)
+    {
+        sf::Event eventrg;
+        while (window.pollEvent(eventrg))
+        {
+            switch(eventrg.type)
+            {
+            case sf::Event::Closed:
+                window.close();
+                break;
+            case sf::Event::KeyPressed:
+                if(eventrg.key.code == sf::Keyboard::Return)
+                {
+                    n++;
+                    break;
+                }
+            case sf::Event::TextEntered:
+                if(eventrg.text.unicode == 59 && sentence.getSize()>0)
+                {
+                    sentence.erase(sentence.getSize()-1,sentence.getSize());
+                }
+                else if((eventrg.text.unicode >= 48 && eventrg.text.unicode <= 57)||(eventrg.text.unicode >= 65 && eventrg.text.unicode <= 90)||(eventrg.text.unicode >= 97 && eventrg.text.unicode <= 122))
+                {
+                    sentence += static_cast<char>(eventrg.text.unicode);
+                }
+                username.setString(sentence);
+            }
+            window.clear();
+            window.draw(background);
+            username.setPosition(600,280);
+            window.draw(username);
+            window.display();
+        }
+
+    }
+    strcpy(out,sentence.toAnsiString().c_str());
+}
+
+void waitenter(sf::RenderWindow &window,sf::Texture &texture)
+{
+    sf::Event eventrg;
+    sf::Sprite background(texture);
+    while (window.isOpen())
+    {
+        while (window.pollEvent(eventrg))
+        {
+            switch(eventrg.type)
+            {
+            case sf::Event::Closed:
+                window.close();
+                break;
+            case sf::Event::TextEntered:
+                goto outwait;
+            }
+            window.clear();
+            window.draw(background);
+            window.display();
+        }
+    }
+outwait:
+    ;
+}
+
+
+int main()
+{
+    ///////////////////////
+    sf::RenderWindow window(sf::VideoMode(1500, 700), "Stardew walley!!");
+    Menu menu(window.getSize().x, (window.getSize().y)/0.35);
+    int n=0,num=0,userdata[100];
+    char user[100],pass[100];
+    num = menu.open(window,user,pass,userdata);
     for(int ii=0;ii<num;ii++){
         cout<<userdata[ii]<<endl;
     }

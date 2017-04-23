@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <SFML/Network.hpp>
 using namespace std;
 class tcp
 {
@@ -11,6 +12,7 @@ private:
     sf::Socket::Status status;
     std::size_t received;
 public:
+    bool con;
     tcp();
     void connect();
     void sent(char *dataa);
@@ -34,13 +36,25 @@ tcp::tcp()
     }
     status = socket.connect(ip, port);
     configfile.close();
+    if (status != sf::Socket::Done)
+    {
+        con=0;
+    }
+    else
+    {
+        con=1;
+    }
 }
 void tcp::connect()
 {
     //status = socket.connect(ip, port);
     if (status != sf::Socket::Done)
     {
-        cout<<"connect error";
+        con=0;
+    }
+    else
+    {
+        con=1;
     }
 }
 void tcp::sent(char *dataa)
@@ -48,6 +62,7 @@ void tcp::sent(char *dataa)
     if (socket.send(dataa, 100) != sf::Socket::Done)
     {
         cout<<"sent error";
+        con=0;
     }
 }
 void tcp::receive()
@@ -59,3 +74,6 @@ void tcp::receive()
 }
 char* tcp::getdata()
 {
+
+    return data;
+}
