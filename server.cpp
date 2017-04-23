@@ -186,12 +186,14 @@ int main()
     strcpy(username,tcpsocket.getdata());
     tcpsocket.receivedata();
     strcpy(password,tcpsocket.getdata());
+    if(!(strcmp(username,"")==0 || strcmp(password,"")==0)){
     if(strcmp(type,"1")==0){
         id = userdata.login(username,password);
         if(id >=0 )tcpsocket.senddata(userdata.getgamedata(id));
         if(id ==-2 )tcpsocket.senddata("password worng");
         if(id ==-1 )tcpsocket.senddata("username worng");
     }
+
     if(strcmp(type,"2")==0){
         id = userdata.login(username,password);
         if(id == -1){
@@ -213,6 +215,9 @@ int main()
         }else{
         tcpsocket.senddata("password worng");
         }
+    }
+    }else{
+    tcpsocket.senddata("username error");
     }
 
     }
