@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string.h>
-#include "split.h"
 #include <SFML/Graphics.hpp>
 #include "animetion.h"
 #include "object.h"
@@ -16,7 +15,8 @@ int main()
     split(wordtest);*/
     //coliider col(&player1);
     sf::RenderWindow window;
-     sf::Texture playertexture,bg,cat;
+    int mapcheck[38][19];
+     sf::Texture playertexture,bg,cat,Barn,coop;
      sf::Vector2i position;
     window.create(sf::VideoMode(1900,950)," FARM EIEI ",sf::Style::Resize|sf::Style::Close);//Style คือ รูปแบบของดด้านบนที่เราต้องการ close จะมีปุ่มปิด
     sf::Vector2u size(640,480);
@@ -33,7 +33,7 @@ int main()
     bgg.setTexture(bg);
     //bgg.scale(2,2);
     bgg.setPosition(0,0);
-    playertexture.loadFromFile("she.png");
+    playertexture.loadFromFile("resource/she.png");
     player.setTexture(&playertexture);
     sf::Vector2u texturesize = playertexture.getSize();
     texturesize.x /=4;
@@ -43,10 +43,17 @@ int main()
     float deltatime=0.0f;
     sf::Clock clock;
     sf::Time time;
+    Barn.loadFromFile("resource/Barn.png");
     int turn=0;
-    cat.loadFromFile("cat.jpg");
-    object ob1(&cat,sf::Vector2f(100.0f,200.0f),sf::Vector2f(900.0f,250.0f));
-    object ob2(&cat,sf::Vector2f(100.0f,200.0f),sf::Vector2f(1100.0f,500.0f));
+    coop.loadFromFile("resource/Coop.png");
+    object Barnn(&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f));
+    object Coop(&coop,sf::Vector2f(112.0f,128.0f),sf::Vector2f(80.0f,350.0f));
+    object kop(&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f));
+    object kop1(&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f));
+    object kop2(&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(1900.0f,0.0f));
+    object kop3(&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,950.0f));
+
+
     Player player1(&playertexture,sf::Vector2u(4,4),0.3f,sf::Vector2f(500.0f,600.0f));
     Player player2(&playertexture,sf::Vector2u(4,4),0.3f,sf::Vector2f(500.0f,500.0f));
     while (window.isOpen())
@@ -69,12 +76,20 @@ int main()
 
         }
         player1.update(deltatime,movespeed,turn);
-        ob1.getcollider().checkcollider(player1.getcollider(),1.0f);
-        ob2.getcollider().checkcollider(player1.getcollider(),0.9f);
+        Barnn.getcollider().checkcollider(player1.getcollider(),1.0f);
+        Coop.getcollider().checkcollider(player1.getcollider(),1.0f);
+        kop.getcollider().checkcollider(player1.getcollider(),1.0f);
+        kop1.getcollider().checkcollider(player1.getcollider(),1.0f);
+        kop2.getcollider().checkcollider(player1.getcollider(),1.0f);
+        kop3.getcollider().checkcollider(player1.getcollider(),1.0f);
         window.clear(sf::Color(150,150,150));
         window.draw(bgg);
-        ob1.Draw(window);
-        ob2.Draw(window);
+        Barnn.Draw(window);
+        kop.Draw(window);
+        kop1.Draw(window);
+        kop2.Draw(window);
+        kop3.Draw(window);
+        Coop.Draw(window);
         player1.Draw(window);
         window.display();
         turn++;

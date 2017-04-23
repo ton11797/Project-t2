@@ -1,11 +1,13 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+#define OBJECT_H
 #include<SFML/Graphics.hpp>
 #include "animetion.h"
 #include "collider.h"
 #include <iostream>
-
-
+#include "object.h"
+#include "Player.h"
+//class object;
 class Player
 {
     public:
@@ -41,34 +43,35 @@ void Player::update(float deltatime,float movespeed,int start)
     if(start==0)body.setTextureRect(anima.uvRect);
      if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
-            if(body.getPosition().x/50>=0.5f)
+            //if(body.getPosition().x/50>=0.5f)
             body.move(-movespeed,0.0f);
             anima.update(1,deltatime);
             body.setTextureRect(anima.uvRect);
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {
-           if (body.getPosition().y/50<=18.8f)
+           //if (body.getPosition().y/50<=18.8f)
             body.move(0.0f,+movespeed);
             anima.update(0,deltatime);
             body.setTextureRect(anima.uvRect);
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
-            if(body.getPosition().x/50<=37.8f)
+            //if(body.getPosition().x/50<=37.8f)
             body.move(movespeed,0.0f);
             anima.update(2,deltatime);
             body.setTextureRect(anima.uvRect);
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         {
-            if (body.getPosition().y/50>=0.6f)
+           // if (body.getPosition().y/50>=0.6f)
             body.move(0.0f,-movespeed);
             anima.update(3,deltatime);
             body.setTextureRect(anima.uvRect);
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::B))
         {
+            //plant(window,mapcheck[][19],weed);
             cout<<"X = "<<static_cast<int>(body.getPosition().x/50)<<" Y = "<<static_cast<int>(body.getPosition().y/50)<<endl;
 
         }
