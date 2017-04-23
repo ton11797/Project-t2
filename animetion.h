@@ -12,6 +12,7 @@ class animetion
 
     public:
         sf::IntRect uvRect;
+        //sf::Vector2f Getposition(){return body.getPosition();}
 
 
     private:sf::Vector2u imagecount;
