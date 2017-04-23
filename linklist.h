@@ -9,7 +9,7 @@ public:
     node(char []);
     void insert(node*&);
     node* movenext();
-    void shownode();
+    int shownode();
 
 
 };
@@ -29,15 +29,17 @@ void node::insert(node*& x){
 node* node::movenext(){
       return next;
 }
-void node::shownode(){
-    cout<<data<<endl;
+int node::shownode(){
+    return atoi(data);
+    //cout<<data<<endl;
 }
 class ll
 {
     private:node*head;
             int size;
     public:void addnode(node *&);
-            void showall();
+            void showall(int *);
+            int getsize();
             ll();
             ~ll();
 };
@@ -66,11 +68,14 @@ void ll::addnode(node *&A){
        size++;
 
  }
-void ll::showall(){
+void ll::showall(int *a){
      node* t=head;
      int i;
      for(i=0;i<size;i++){
-                t->shownode();
+                a[i]= t->shownode();
                 t=t->movenext();
      }
+}
+int ll::getsize(){
+    return size;
 }

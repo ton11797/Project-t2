@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string.h>
 #include "Menu.h"
+#include "split.h"
 #include <SFML/Window.hpp>
 #include <SFML/Network.hpp>
 #include<fstream>
@@ -16,6 +17,7 @@ private:
     sf::Socket::Status status;
     std::size_t received;
 public:
+    bool con;
     tcp();
     void connect();
     void sent(char *dataa);
@@ -39,13 +41,25 @@ tcp::tcp()
     }
     status = socket.connect(ip, port);
     configfile.close();
+    if (status != sf::Socket::Done)
+    {
+        con=0;
+    }
+    else
+    {
+        con=1;
+    }
 }
 void tcp::connect()
 {
     //status = socket.connect(ip, port);
     if (status != sf::Socket::Done)
     {
-        cout<<"connect error";
+        con=0;
+    }
+    else
+    {
+        con=1;
     }
 }
 void tcp::sent(char *dataa)
@@ -53,6 +67,7 @@ void tcp::sent(char *dataa)
     if (socket.send(dataa, 100) != sf::Socket::Done)
     {
         cout<<"sent error";
+        con=0;
     }
 }
 void tcp::receive()
@@ -181,16 +196,48 @@ void getuserinput(sf::RenderWindow &window,char *out,sf::Texture &texture)
     }
     strcpy(out,sentence.toAnsiString().c_str());
 }
+
+void waitenter(sf::RenderWindow &window,sf::Texture &texture)
+{
+    sf::Event eventrg;
+    sf::Sprite background(texture);
+    while (window.isOpen())
+    {
+        while (window.pollEvent(eventrg))
+        {
+            switch(eventrg.type)
+            {
+            case sf::Event::Closed:
+                window.close();
+                break;
+            case sf::Event::TextEntered:
+                goto outwait;
+            }
+            window.clear();
+            window.draw(background);
+            window.display();
+        }
+    }
+outwait:
+    ;
+}
 int main()
 {
     char user[100],pass[100];
     char type[100],re[100];
+    int userdata[100],num;
     tcp *tcpsocket;
     ///////////////////////
-    sf::Texture texture,usertx,passtx;
-    if(!texture.loadFromFile("menu.jpg"));
-    if(!usertx.loadFromFile("loginuserp.png"));
-    if(!passtx.loadFromFile("loginpass.png"));
+    sf::Texture texture,usertx,passtx,nouser,passworng,sameuser,registered,blank,cantconnect;
+    if(!texture.loadFromFile("resource\\menu.jpg"));
+    if(!usertx.loadFromFile("resource\\loginuserp.png"));
+    if(!passtx.loadFromFile("resource\\loginpass.png"));
+    if(!nouser.loadFromFile("resource\\nousername.png"));
+    if(!passworng.loadFromFile("resource\\password wrong.png"));
+    if(!sameuser.loadFromFile("resource\\username exists.png"));
+    if(!registered.loadFromFile("resource\\registered.png"));
+    if(!blank.loadFromFile("resource\\blank.png"));
+    if(!cantconnect.loadFromFile("resource\\cantconnect.png"));
     sf::Sprite background(texture);
     sf::RenderWindow window(sf::VideoMode(1500, 700), "Stardew walley!!");
     Menu menu(window.getSize().x, (window.getSize().y)/0.35);
@@ -230,14 +277,40 @@ int main()
                         cout<<"password :"<<pass<<endl;
                         char type[100],re[100];
                         strcpy(type,"2");
-                        tcpsocket= new(tcp);
-                        tcpsocket->sent(type);
-                        tcpsocket->sent(user);
-                        tcpsocket->sent(pass);
-                        tcpsocket->receive();
-                        strcpy(re,tcpsocket->getdata());
-                        delete(tcpsocket);
-                        cout<<re;
+                        if(!(strcmp(user,"")==0 || strcmp(pass,"")==0))
+                        {
+                            tcpsocket= new(tcp);
+                            if(tcpsocket->con==1)
+                            {
+                                tcpsocket->sent(type);
+                                tcpsocket->sent(user);
+                                tcpsocket->sent(pass);
+                                tcpsocket->receive();
+                                strcpy(re,tcpsocket->getdata());
+                                delete(tcpsocket);
+                                if(strcmp(re,"0")==0)
+                                {
+                                    waitenter(window,sameuser);
+                                }
+                                else if(strcmp(re,"1")==0)
+                                {
+                                    waitenter(window,registered);
+                                }
+                                else
+                                {
+
+                                }
+                            }
+                            else
+                            {
+                                waitenter(window,cantconnect);
+                            }
+                        }
+                        else
+                        {
+
+                            waitenter(window,blank);
+                        }
                         break;
                     case 1:
                         std::cout << "Login button has been pressed" << std::endl;
@@ -247,13 +320,32 @@ int main()
                         cout<<"password :"<<pass<<endl;
                         strcpy(type,"1");
                         tcpsocket= new(tcp);
-                        tcpsocket->sent(type);
-                        tcpsocket->sent(user);
-                        tcpsocket->sent(pass);
-                        tcpsocket->receive();
-                        strcpy(re,tcpsocket->getdata());
-                        delete(tcpsocket);
-                        cout<<re;
+                        if(tcpsocket->con==1)
+                        {
+                            tcpsocket->sent(type);
+                            tcpsocket->sent(user);
+                            tcpsocket->sent(pass);
+                            tcpsocket->receive();
+                            strcpy(re,tcpsocket->getdata());
+                            delete(tcpsocket);
+                            if(strcmp(re,"0")==0)
+                            {
+                                waitenter(window,nouser);
+                            }
+                            else if(strcmp(re,"1")==0)
+                            {
+                                waitenter(window,passworng);
+                            }
+                            else
+                            {
+                                num=split(re,userdata);
+                                goto gamestart;
+                            }
+                        }
+                        else
+                        {
+                            waitenter(window,cantconnect);
+                        }
                         break;
                     case 2:
                         std::cout << "Ranking button has been pressed "<< std::endl;
@@ -275,5 +367,10 @@ int main()
         window.draw(background);
         menu.draw(window);
         window.display();
+    }
+
+    gamestart:;
+    for(int ii=0;ii<num;ii++){
+        cout<<userdata[ii]<<endl;
     }
 }
