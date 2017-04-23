@@ -6,7 +6,7 @@ int split(char word[],int *a)
 {
     int positioncomma[100],valueofcomma=0,positionsplit=0;
     node *t;
-
+    ll A;
     for(int i=0;i<100;i++)
     {
 
