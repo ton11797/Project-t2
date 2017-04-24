@@ -46,12 +46,12 @@ int main()
     Barn.loadFromFile("resource/Barn.png");
     int turn=0;
     coop.loadFromFile("resource/Coop.png");
-    object Barnn(&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f));
-    object Coop(&coop,sf::Vector2f(50.0f,50.0f),sf::Vector2f(80.0f,350.0f));
-    object kop(&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f));
-    object kop1(&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f));
-    object kop2(&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(1900.0f,0.0f));
-    object kop3(&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,950.0f));
+    object Barnn(&Barn,&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f),0);
+    object Coop(&coop,&playertexture,sf::Vector2f(50.0f,50.0f),sf::Vector2f(80.0f,350.0f),0);
+    object kop(&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f),0);
+    object kop1(&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f),0);
+    object kop2(&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(1900.0f,0.0f),0);
+    object kop3(&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,950.0f),0);
 
 
     Player player1(&playertexture,sf::Vector2u(4,4),0.3f,sf::Vector2f(500.0f,600.0f));
@@ -82,12 +82,17 @@ int main()
         kop1.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop2.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop3.getcollider().checkcollider(player1.getcollider(),1.0f);
-        Coop.getcollider().checkcolliderforplant(player1.getcollider());
-        window.clear(sf::Color(150,150,150));
+        //Coop.getcollider().checkcolliderforplant(player1.getcollider());
+        Coop.plantorbuild(player1,&coop,&playertexture);
+       /* if(Coop.getcollider().checkcolliderforplant(player1.getcollider()))
+        {
+            cout<<"true"<<endl;
+        }*/
+        //window.clear(sf::Color(150,150,150));
         window.draw(bgg);
         Barnn.Draw(window);
         //Barnn.plantorbuild(player1);
-        Coop.plantorbuild(player1);
+        //Coop.plantorbuild(player1);
         kop.Draw(window);
         kop1.Draw(window);
         kop2.Draw(window);

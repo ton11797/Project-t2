@@ -20,6 +20,8 @@ class collider
     protected:
 
     private:sf::RectangleShape &player;
+    int full;
+    int type;
 };
 bool  collider::checkcollider(collider player,float push)
 {
@@ -103,10 +105,11 @@ bool collider::checkcolliderforplant(collider player)
     if(checky>=0) intersecy= (checky)-(otherhalfsize.y+currenthalfsize.y);
     if(intersecx<0.0f&&intersecy<0.0f)
     {
+       return true;
+
         //cout<<"eiei"<<endl;
-        return true;
     }
-    return false;
+    else return false;
 
 }
 collider::~collider()

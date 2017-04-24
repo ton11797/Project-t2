@@ -7,19 +7,19 @@
 class object
 {
     public:
-        object(sf::Texture* texture,sf::Vector2f sizee,sf::Vector2f position);
+        object(sf::Texture* texture1,sf::Texture* texture2,sf::Vector2f sizee,sf::Vector2f position,int fullnumber);
         virtual ~object();
         void Draw(sf::RenderWindow &window);
         collider getcollider(){return collider(body);}
-        void plantorbuild(Player player);
+        void plantorbuild(Player player,sf::Texture* texture1,sf::Texture* texture2);
 
     protected:
 
     private:
         sf::RectangleShape body;
         //sf::Time timeobject;
-        int typeobject;
-        char nameobject[20];
+        int full;
+        //char nameobject[20];
         int priceobject;
         float timetofinish;
 
@@ -34,12 +34,13 @@ class object
 
     }
 }*/
-object::object(sf::Texture* texture,sf::Vector2f sizee,sf::Vector2f position)//,sf::RenderWindow &window,int mapcheck[][])
+object::object(sf::Texture* texture1,sf::Texture* texture2,sf::Vector2f sizee,sf::Vector2f position,int fullnumber)//,sf::RenderWindow &window,int mapcheck[][])
 {
     body.setSize(sizee);
     body.setOrigin(sizee/2.0f);
-    body.setTexture(texture);
+    body.setTexture(texture1);
     body.setPosition(position);
+    full=fullnumber;
     //window.draw(body);
 
 
@@ -52,13 +53,33 @@ object::~object()
 {
     //dtor
 }
-void object::plantorbuild(Player player)
+void object::plantorbuild(Player player,sf::Texture* texture1,sf::Texture* texture2)
 {
-    if(player.Getposition().x/50==body.getPosition().x/50&&player.Getposition().y/50==body.getPosition().y/50)
-    {
-        cout<<"eiei"<<endl;
 
-    }
+if(getcollider().checkcolliderforplant(player.getcollider()))
+{
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::O)&&full==0)
+        {
+            //if(getcollider().checkcolliderforplant(player.getcollider()))
+            //{
+
+                body.setTexture(texture2);
+                full=1;
+                cout<<"FULL = "<<full<<endl;
+            //}
+            //if(full==1)
+            //{
+              //  body.setTexture(texture1);
+                //full=0;
+            //}
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)&&full==1)
+        {
+            body.setTexture(texture1);
+                full=0;
+                cout<<"FULL = "<<full<<endl;
+        }
+}
 
 }
 #endif // OBJECT_H
