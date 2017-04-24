@@ -29,6 +29,7 @@ int main()
     player.setOrigin(50.0f,50.0f);
     player.setPosition(500.0f,500.0f);
     bg.loadFromFile("map.jpg");
+    cat.loadFromFile("cat.jpg");
     sf::Sprite bgg(bg);
     bgg.setTexture(bg);
     //bgg.scale(2,2);
@@ -46,12 +47,12 @@ int main()
     Barn.loadFromFile("resource/Barn.png");
     int turn=0;
     coop.loadFromFile("resource/Coop.png");
-    object Barnn(&Barn,&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f),0,0,0);
-    object Coop(&coop,&playertexture,sf::Vector2f(50.0f,50.0f),sf::Vector2f(80.0f,350.0f),0,5.0f,0);
-    object kop(&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f),0,0,0);
-    object kop1(&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f),0,0,0);
-    object kop2(&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(1900.0f,0.0f),0,0,0);
-    object kop3(&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,950.0f),0,0,0);
+    object Barnn(&Barn,&Barn,&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f),0,0,0);
+    object Coop(&coop,&playertexture,&cat,sf::Vector2f(50.0f,50.0f),sf::Vector2f(80.0f,350.0f),0,5.0f,0);
+    object kop(&bg,&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f),0,0,0);
+    object kop1(&bg,&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f),0,0,0);
+    object kop2(&bg,&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(1900.0f,0.0f),0,0,0);
+    object kop3(&bg,&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,950.0f),0,0,0);
 
 
     Player player1(&playertexture,sf::Vector2u(4,4),0.3f,sf::Vector2f(500.0f,600.0f));
@@ -83,7 +84,7 @@ int main()
         kop2.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop3.getcollider().checkcollider(player1.getcollider(),1.0f);
         Coop.getcollider().checkcolliderforplant(player1.getcollider());
-        Coop.plantorbuild(player1,&coop,&playertexture,timeplant,clockforplant);
+        Coop.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant);
        /* if(Coop.getcollider().checkcolliderforplant(player1.getcollider()))
         {
             cout<<"true"<<endl;

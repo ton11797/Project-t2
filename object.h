@@ -7,11 +7,11 @@
 class object
 {
     public:
-        object(sf::Texture* texture1,sf::Texture* texture2,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,float timef,int first);
+        object(sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,float timef,int first);
         virtual ~object();
         void Draw(sf::RenderWindow &window);
         collider getcollider(){return collider(body);}
-        void plantorbuild(Player player,sf::Texture* texture1,sf::Texture* texture2,sf::Time timep,sf::Clock clockp);
+        void plantorbuild(Player player,sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Time timep,sf::Clock clockp);
 
     protected:
 
@@ -37,7 +37,7 @@ class object
 
     }
 }*/
-object::object(sf::Texture* texture1,sf::Texture* texture2,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,float timef,int first)//,sf::RenderWindow &window,int mapcheck[][])
+object::object(sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,float timef,int first)//,sf::RenderWindow &window,int mapcheck[][])
 {
     body.setSize(sizee);
     body.setOrigin(sizee/2.0f);
@@ -59,9 +59,16 @@ object::~object()
 {
     //dtor
 }
-void object::plantorbuild(Player player,sf::Texture* texture1,sf::Texture* texture2,sf::Time timep,sf::Clock clockp)
+void object::plantorbuild(Player player,sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Time timep,sf::Clock clockp)
 {
     float timecheck;
+     timep=clockp.getElapsedTime();
+            timecheck=timep.asSeconds();
+            if(timeforplant<=(timecheck-timedoing)&&full==1)
+            {
+                cout<<"YOUR FUCKING PLANT READY TO COLLECT "<<endl;
+                body.setTexture(texture3);
+            }
 if(getcollider().checkcolliderforplant(player.getcollider()))
 {
 
@@ -75,6 +82,7 @@ if(getcollider().checkcolliderforplant(player.getcollider()))
                 cout<<"FULL = "<<full<<endl;
                 timedoing=timep.asSeconds();
                 cout<<"Time = "<<timep.asSeconds()<<endl;
+                cout<<"YOU HAVE PLANT YOUR FUCKING SEED "<<endl;
                 firsttime=1;
             }
 
@@ -91,6 +99,7 @@ if(getcollider().checkcolliderforplant(player.getcollider()))
                 cout<<"FULL = "<<full<<endl;
                 firsttime=0;
                  cout<<"Time = "<<timep.asSeconds()<<endl;
+                 cout<<"CONGRATULATION YOU GOT FUCKING PLANT FOR YOU "<<endl;
             }
 
         }
