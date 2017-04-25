@@ -7,7 +7,7 @@
 class object
 {
     public:
-        object(sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Vector2f sizee,sf::Vector2f position,int fullnumber=0,int first=0,float timef=0,int priceplant=0,int pricesell=0);
+        object(sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,int first,float timef,int priceplant,int pricesell);
         virtual ~object();
         void Draw(sf::RenderWindow &window);
         collider getcollider(){return collider(body);}
@@ -76,6 +76,7 @@ if(getcollider().checkcolliderforplant(player.getcollider()))
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::O)&&full==0)
         {
+            //cout<<"EIEI"<<endl;
             if(firsttime==0&&((money-priceobjecttoplant)>=0))
             {
                 timep=clockp.getElapsedTime();

@@ -13,7 +13,7 @@ class Player
     public:
         Player(sf::Texture* texture,sf::Vector2u imagecount,float switchtime,sf::Vector2f position);
         virtual ~Player();
-        void update(float deltatime,float movespeed,int start);
+        void update(float deltatime,float movespeed,int start,int &money);
         void Draw(sf::RenderWindow &window){window.draw(body);}
         sf::Vector2f Getposition(){return body.getPosition();}
         collider getcollider(){return collider(body);}
@@ -38,7 +38,7 @@ Player::~Player()
 {
     //dtor
 }
-void Player::update(float deltatime,float movespeed,int start)
+void Player::update(float deltatime,float movespeed,int start,int &money)
 {
     if(start==0)body.setTextureRect(anima.uvRect);
      if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
@@ -73,6 +73,7 @@ void Player::update(float deltatime,float movespeed,int start)
         {
             //plant(window,mapcheck[][19],weed);
             cout<<"X = "<<static_cast<int>(body.getPosition().x/50)<<" Y = "<<static_cast<int>(body.getPosition().y/50)<<endl;
+            cout<<"YOUR FUCKING MONEY = "<<money<<endl;
 
         }
         //window.draw(texture);

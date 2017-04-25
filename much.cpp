@@ -15,7 +15,7 @@ int main()
     split(wordtest);*/
     //coliider col(&player1);
     sf::RenderWindow window;
-    int mapcheck[38][19],*moneypoint,money=10;
+    int mapcheck[38][19],*moneypoint,money=100;
     moneypoint=&money;
      sf::Texture playertexture,bg,cat,Barn,coop;
      sf::Vector2i position;
@@ -48,13 +48,18 @@ int main()
     Barn.loadFromFile("resource/Barn.png");
     int turn=0;
     coop.loadFromFile("resource/Coop.png");
-    object Barnn(&Barn,&Barn,&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f));
-    object Coop(&coop,&playertexture,&cat,sf::Vector2f(50.0f,50.0f),sf::Vector2f(80.0f,350.0f),5.0f,9,10);
-    object Coop1(&coop,&playertexture,&cat,sf::Vector2f(50.0f,50.0f),sf::Vector2f(160.0f,350.0f),5.0f,4,5);
-    object kop(&bg,&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f));
-    object kop1(&bg,&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f));
-    object kop2(&bg,&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(1900.0f,0.0f));
-    object kop3(&bg,&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,950.0f));
+    object Barnn(&Barn,&Barn,&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f),0,0,0,0,0);
+    object Coop(&coop,&playertexture,&cat,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,410.0f),0,0,5.0f,9,10);
+    object Coop1(&coop,&playertexture,&cat,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,500.0f),0,0,5.0f,4,5);
+    object Coop2(&coop,&playertexture,&cat,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,590.0f),0,0,5.0f,4,5);
+    object Coop3(&coop,&playertexture,&cat,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,680.0f),0,0,5.0f,4,5);
+    object Coop4(&coop,&playertexture,&cat,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,770.0f),0,0,5.0f,4,5);
+    object Coop5(&coop,&playertexture,&cat,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,860.0f),0,0,5.0f,4,5);
+    object moneydisplay(&cat,&bg,&bg,sf::Vector2f(700.0f,200.0f),sf::Vector2f(0.0f,0.0f),0,0,0,0,0);
+    object kop(&bg,&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f),0,0,0,0,0);
+    object kop1(&bg,&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f),0,0,0,0,0);
+    object kop2(&bg,&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(1900.0f,0.0f),0,0,0,0,0);
+    object kop3(&bg,&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,950.0f),0,0,0,0,0);
 
 
     Player player1(&playertexture,sf::Vector2u(4,4),0.3f,sf::Vector2f(500.0f,600.0f));
@@ -79,17 +84,21 @@ int main()
             }
 
         }
-        player1.update(deltatime,movespeed,turn);
+        player1.update(deltatime,movespeed,turn,*moneypoint);
         //Barnn.getcollider().checkcollider(player1.getcollider(),1.0f);
        // Coop.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop1.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop2.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop3.getcollider().checkcollider(player1.getcollider(),1.0f);
+        moneydisplay.getcollider().checkcollider(player1.getcollider(),1.0f);
         Coop.getcollider().checkcolliderforplant(player1.getcollider());
         Coop.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant,*moneypoint);
         Coop1.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant,*moneypoint);
-        //cout<<"YOUR FUCKING MONEY = "<<money<<endl;
+        Coop2.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant,*moneypoint);
+        Coop3.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant,*moneypoint);
+        Coop4.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant,*moneypoint);
+        Coop5.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant,*moneypoint);
        /* if(Coop.getcollider().checkcolliderforplant(player1.getcollider()))
         {
             cout<<"true"<<endl;
@@ -106,7 +115,12 @@ int main()
         kop3.Draw(window);
         Coop.Draw(window);
         Coop1.Draw(window);
+        Coop2.Draw(window);
+        Coop3.Draw(window);
+        Coop4.Draw(window);
+        Coop5.Draw(window);
         player1.Draw(window);
+        moneydisplay.Draw(window);
         window.display();
         turn++;
 
