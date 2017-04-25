@@ -1,14 +1,22 @@
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string.h>
-#include "Menu.h"
-#include "split.h"
 #include <SFML/Window.hpp>
 #include <SFML/Network.hpp>
-#include<fstream>
+#include <fstream>
+#include "Menu.h"
+#include "split.h"
+#include "animetion.h"
+#include "object.h"
+#include "Player.h"
+#include "collider.h"
+
 using namespace std;
+//function prototype
 void getuserinput(sf::RenderWindow &window,char *out,sf::Texture &texture);
 void waitenter(sf::RenderWindow &window,sf::Texture &texture);
+//end function prototype
+//class menu
 Menu::Menu(float width, float height)
 {
     if(!texture.loadFromFile("resource\\menu.jpg"));
@@ -218,6 +226,8 @@ int Menu::open(sf::RenderWindow &window,char *userin,char *passin,int *userdatai
     gamestart:;
     return num;
 }
+//end class menu
+//function
 void getuserinput(sf::RenderWindow &window,char *out,sf::Texture &texture)
 {
     int n=0;
@@ -291,17 +301,107 @@ void waitenter(sf::RenderWindow &window,sf::Texture &texture)
 outwait:
     ;
 }
-
+//end function
 
 int main()
 {
-    ///////////////////////
-    sf::RenderWindow window(sf::VideoMode(1500, 700), "Stardew walley!!");
-    Menu menu(window.getSize().x, (window.getSize().y)/0.35);
+    ///////////////////////game menu//////////////////////////////
+    sf::RenderWindow windowmenu(sf::VideoMode(1500, 700), "Stardew walley!!");
+    Menu menu(windowmenu.getSize().x, (windowmenu.getSize().y)/0.35);
     int n=0,num=0,userdata[100];
     char user[100],pass[100];
-    num = menu.open(window,user,pass,userdata);
+    num = menu.open(windowmenu,user,pass,userdata);
+
     for(int ii=0;ii<num;ii++){
         cout<<userdata[ii]<<endl;
     }
+    ///////////////////////game start//////////////////////////////
+    if(num!=0){
+    sf::RenderWindow window;
+    int mapcheck[38][19];
+     sf::Texture playertexture,bg,cat,Barn,coop;
+     sf::Vector2i position;
+    window.create(sf::VideoMode(1900,950)," FARM EIEI ",sf::Style::Resize|sf::Style::Close);//Style คือ รูปแบบของดด้านบนที่เราต้องการ close จะมีปุ่มปิด
+    sf::Vector2u size(640,480);
+    float movespeed=1;
+    //window.setSize(sf::Vector2u(600,600));//set ขนาดหน้าจอที่เราต้องการให้ขึ้น ต้องใช้ Vector2u
+    window.setTitle("MUCHU");//set ชื่อข้างบนที่เราจะให้ขึ้น
+    window.setPosition(sf::Vector2i(0,0));//set ตำเเหน่งที่หน้าต่างวินโดจะเปิดมา ต้องใช้ vector2i
+    sf::RectangleShape player(sf::Vector2f(50.0f,70.0f));
+    //player.setFillColor(sf::Color::Red);
+    player.setOrigin(50.0f,50.0f);
+    player.setPosition(500.0f,500.0f);
+    bg.loadFromFile("map.jpg");
+    sf::Sprite bgg(bg);
+    bgg.setTexture(bg);
+    //bgg.scale(2,2);
+    bgg.setPosition(0,0);
+    playertexture.loadFromFile("resource/she.png");
+    player.setTexture(&playertexture);
+    sf::Vector2u texturesize = playertexture.getSize();
+    texturesize.x /=4;
+    texturesize.y /=4;
+    player.setTextureRect(sf::IntRect(texturesize.x *0,texturesize.y *0,texturesize.x,texturesize.y));
+    animetion animation(&playertexture,sf::Vector2u(4,4),0.3f);
+    float deltatime=0.0f;
+    sf::Clock clock;
+    sf::Time time;
+    Barn.loadFromFile("resource/Barn.png");
+    int turn=0;
+    coop.loadFromFile("resource/Coop.png");
+    object Barnn(&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f));
+    object Coop(&coop,sf::Vector2f(112.0f,128.0f),sf::Vector2f(80.0f,350.0f));
+    object kop(&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f));
+    object kop1(&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f));
+    object kop2(&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(1900.0f,0.0f));
+    object kop3(&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,950.0f));
+
+
+    Player player1(&playertexture,sf::Vector2u(4,4),0.3f,sf::Vector2f(500.0f,600.0f));
+    Player player2(&playertexture,sf::Vector2u(4,4),0.3f,sf::Vector2f(500.0f,500.0f));
+    while (window.isOpen())
+    {
+       deltatime=clock.restart().asSeconds();
+        sf::Event Event;
+        while(window.pollEvent(Event))
+        {
+            switch(Event.type)
+            {
+                case sf::Event::Closed:
+                    window.close();
+                    break;
+                case sf::Event::TextEntered:
+                    if(Event.text.unicode<128)
+                    {
+                        printf("%c",Event.text.unicode);
+                    }
+            }
+
+        }
+        player1.update(deltatime,movespeed,turn);
+        Barnn.getcollider().checkcollider(player1.getcollider(),1.0f);
+        Coop.getcollider().checkcollider(player1.getcollider(),1.0f);
+        kop.getcollider().checkcollider(player1.getcollider(),1.0f);
+        kop1.getcollider().checkcollider(player1.getcollider(),1.0f);
+        kop2.getcollider().checkcollider(player1.getcollider(),1.0f);
+        kop3.getcollider().checkcollider(player1.getcollider(),1.0f);
+        window.clear(sf::Color(150,150,150));
+        window.draw(bgg);
+        Barnn.Draw(window);
+        kop.Draw(window);
+        kop1.Draw(window);
+        kop2.Draw(window);
+        kop3.Draw(window);
+        Coop.Draw(window);
+        player1.Draw(window);
+        window.display();
+        turn++;
+
+    }
+    }
+
+    return 0;
+
+
+
 }
