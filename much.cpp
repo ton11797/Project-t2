@@ -49,6 +49,11 @@ int main()
     coop.loadFromFile("resource/Coop.png");
     object Barnn(&Barn,&Barn,&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f),0,0,0);
     object Coop(&coop,&playertexture,&cat,sf::Vector2f(50.0f,50.0f),sf::Vector2f(80.0f,350.0f),0,5.0f,0);
+    object Coop1(&coop,&playertexture,&cat,sf::Vector2f(50.0f,50.0f),sf::Vector2f(160.0f,350.0f),0,10.0f,0);
+    object Coop2(&coop,&playertexture,&cat,sf::Vector2f(50.0f,50.0f),sf::Vector2f(80.0f,410.0f),0,15.0f,0);
+    object Coop3(&coop,&playertexture,&cat,sf::Vector2f(50.0f,50.0f),sf::Vector2f(160.0f,410.0f),0,20.0f,0);
+    object Coop4(&coop,&playertexture,&cat,sf::Vector2f(50.0f,50.0f),sf::Vector2f(80.0f,470.0f),0,25.0f,0);
+    object Coop5(&coop,&playertexture,&cat,sf::Vector2f(50.0f,50.0f),sf::Vector2f(160.0f,470.0f),0,30.0f,0);
     object kop(&bg,&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f),0,0,0);
     object kop1(&bg,&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f),0,0,0);
     object kop2(&bg,&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(1900.0f,0.0f),0,0,0);
@@ -83,8 +88,12 @@ int main()
         kop1.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop2.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop3.getcollider().checkcollider(player1.getcollider(),1.0f);
-        Coop.getcollider().checkcolliderforplant(player1.getcollider());
         Coop.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant);
+        Coop1.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant);
+        Coop2.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant);
+        Coop3.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant);
+        Coop4.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant);
+        Coop5.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant);
        /* if(Coop.getcollider().checkcolliderforplant(player1.getcollider()))
         {
             cout<<"true"<<endl;
@@ -100,6 +109,11 @@ int main()
         kop2.Draw(window);
         kop3.Draw(window);
         Coop.Draw(window);
+        Coop1.Draw(window);
+        Coop2.Draw(window);
+        Coop3.Draw(window);
+        Coop4.Draw(window);
+        Coop5.Draw(window);
         player1.Draw(window);
         window.display();
         turn++;

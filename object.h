@@ -66,7 +66,7 @@ void object::plantorbuild(Player player,sf::Texture* texture1,sf::Texture* textu
             timecheck=timep.asSeconds();
             if(timeforplant<=(timecheck-timedoing)&&full==1)
             {
-                cout<<"YOUR FUCKING PLANT READY TO COLLECT "<<endl;
+                //cout<<"YOUR FUCKING PLANT READY TO COLLECT "<<endl;
                 body.setTexture(texture3);
             }
 if(getcollider().checkcolliderforplant(player.getcollider()))
