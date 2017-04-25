@@ -7,11 +7,11 @@
 class object
 {
     public:
-        object(sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,float timef,int first);
+        object(sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Vector2f sizee,sf::Vector2f position,int fullnumber=0,int first=0,float timef=0,int priceplant=0,int pricesell=0);
         virtual ~object();
         void Draw(sf::RenderWindow &window);
         collider getcollider(){return collider(body);}
-        void plantorbuild(Player player,sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Time timep,sf::Clock clockp);
+        void plantorbuild(Player player,sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Time timep,sf::Clock clockp,int &money);
 
     protected:
 
@@ -21,8 +21,8 @@ class object
         int full;
 
         //char nameobject[20];
-        int priceobject;
-        float timetofinish;
+        int priceobjecttoplant;
+        int priceobjecttosell;
         int firsttime;
         float timedoing;
 
@@ -37,7 +37,7 @@ class object
 
     }
 }*/
-object::object(sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,float timef,int first)//,sf::RenderWindow &window,int mapcheck[][])
+object:: object(sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,int first,float timef,int priceplant,int pricesell)//,sf::RenderWindow &window,int mapcheck[][])
 {
     body.setSize(sizee);
     body.setOrigin(sizee/2.0f);
@@ -46,6 +46,8 @@ object::object(sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3
     full=fullnumber;
     timeforplant=timef;
     firsttime=first;
+    priceobjecttoplant=priceplant;
+    priceobjecttosell=pricesell;
 
     //window.draw(body);
 
@@ -59,14 +61,14 @@ object::~object()
 {
     //dtor
 }
-void object::plantorbuild(Player player,sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Time timep,sf::Clock clockp)
+void object::plantorbuild(Player player,sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Time timep,sf::Clock clockp,int &money)
 {
     float timecheck;
      timep=clockp.getElapsedTime();
             timecheck=timep.asSeconds();
             if(timeforplant<=(timecheck-timedoing)&&full==1)
             {
-                cout<<"YOUR FUCKING PLANT READY TO COLLECT "<<endl;
+                //cout<<"YOUR FUCKING PLANT READY TO COLLECT "<<endl;
                 body.setTexture(texture3);
             }
 if(getcollider().checkcolliderforplant(player.getcollider()))
@@ -74,7 +76,7 @@ if(getcollider().checkcolliderforplant(player.getcollider()))
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::O)&&full==0)
         {
-            if(firsttime==0)
+            if(firsttime==0&&((money-priceobjecttoplant)>=0))
             {
                 timep=clockp.getElapsedTime();
                 body.setTexture(texture2);
@@ -84,6 +86,7 @@ if(getcollider().checkcolliderforplant(player.getcollider()))
                 cout<<"Time = "<<timep.asSeconds()<<endl;
                 cout<<"YOU HAVE PLANT YOUR FUCKING SEED "<<endl;
                 firsttime=1;
+                money-=priceobjecttoplant;
             }
 
         }
@@ -100,6 +103,8 @@ if(getcollider().checkcolliderforplant(player.getcollider()))
                 firsttime=0;
                  cout<<"Time = "<<timep.asSeconds()<<endl;
                  cout<<"CONGRATULATION YOU GOT FUCKING PLANT FOR YOU "<<endl;
+                 money+=priceobjecttosell;
+                 cout<<"YOUR FUCKING MONEY = "<<money<<endl;
             }
 
         }

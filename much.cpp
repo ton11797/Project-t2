@@ -15,7 +15,8 @@ int main()
     split(wordtest);*/
     //coliider col(&player1);
     sf::RenderWindow window;
-    int mapcheck[38][19];
+    int mapcheck[38][19],*moneypoint,money=10;
+    moneypoint=&money;
      sf::Texture playertexture,bg,cat,Barn,coop;
      sf::Vector2i position;
     window.create(sf::VideoMode(1900,950)," FARM EIEI ",sf::Style::Resize|sf::Style::Close);//Style คือ รูปแบบของดด้านบนที่เราต้องการ close จะมีปุ่มปิด
@@ -47,12 +48,13 @@ int main()
     Barn.loadFromFile("resource/Barn.png");
     int turn=0;
     coop.loadFromFile("resource/Coop.png");
-    object Barnn(&Barn,&Barn,&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f),0,0,0);
-    object Coop(&coop,&playertexture,&cat,sf::Vector2f(50.0f,50.0f),sf::Vector2f(80.0f,350.0f),0,5.0f,0);
-    object kop(&bg,&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f),0,0,0);
-    object kop1(&bg,&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f),0,0,0);
-    object kop2(&bg,&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(1900.0f,0.0f),0,0,0);
-    object kop3(&bg,&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,950.0f),0,0,0);
+    object Barnn(&Barn,&Barn,&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f));
+    object Coop(&coop,&playertexture,&cat,sf::Vector2f(50.0f,50.0f),sf::Vector2f(80.0f,350.0f),5.0f,9,10);
+    object Coop1(&coop,&playertexture,&cat,sf::Vector2f(50.0f,50.0f),sf::Vector2f(160.0f,350.0f),5.0f,4,5);
+    object kop(&bg,&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f));
+    object kop1(&bg,&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f));
+    object kop2(&bg,&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(1900.0f,0.0f));
+    object kop3(&bg,&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,950.0f));
 
 
     Player player1(&playertexture,sf::Vector2u(4,4),0.3f,sf::Vector2f(500.0f,600.0f));
@@ -60,6 +62,7 @@ int main()
     while (window.isOpen())
     {
        deltatime=clock.restart().asSeconds();
+
         sf::Event Event;
         while(window.pollEvent(Event))
         {
@@ -84,7 +87,9 @@ int main()
         kop2.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop3.getcollider().checkcollider(player1.getcollider(),1.0f);
         Coop.getcollider().checkcolliderforplant(player1.getcollider());
-        Coop.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant);
+        Coop.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant,*moneypoint);
+        Coop1.plantorbuild(player1,&coop,&playertexture,&cat,timeplant,clockforplant,*moneypoint);
+        //cout<<"YOUR FUCKING MONEY = "<<money<<endl;
        /* if(Coop.getcollider().checkcolliderforplant(player1.getcollider()))
         {
             cout<<"true"<<endl;
@@ -100,6 +105,7 @@ int main()
         kop2.Draw(window);
         kop3.Draw(window);
         Coop.Draw(window);
+        Coop1.Draw(window);
         player1.Draw(window);
         window.display();
         turn++;
