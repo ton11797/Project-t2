@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "collider.h"
 #include "select.h"
+#include "Menu.h"
 using namespace std;
 
 int main()
@@ -16,6 +17,7 @@ int main()
     split(wordtest);*/
     //coliider col(&player1);
     sf::RenderWindow window;
+    //window.setFramerateLimit(30);
     int mapcheck[38][19],*moneypoint,money=100;
     moneypoint=&money;
      sf::Texture playertexture,bg,cat,Barn,coop;
@@ -23,7 +25,7 @@ int main()
      tex texx;
     window.create(sf::VideoMode(1900,950)," FARM EIEI ",sf::Style::Resize|sf::Style::Close);//Style คือ รูปแบบของดด้านบนที่เราต้องการ close จะมีปุ่มปิด
     sf::Vector2u size(640,480);
-    float movespeed=1;
+    float movespeed=0.5;
     //window.setSize(sf::Vector2u(600,600));//set ขนาดหน้าจอที่เราต้องการให้ขึ้น ต้องใช้ Vector2u
     window.setTitle("MUCHU");//set ชื่อข้างบนที่เราจะให้ขึ้น
     window.setPosition(sf::Vector2i(0,0));//set ตำเเหน่งที่หน้าต่างวินโดจะเปิดมา ต้องใช้ vector2i
@@ -57,7 +59,7 @@ int main()
     object Coop3(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,680.0f),0,0,5.0f,4,5);
     object Coop4(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,770.0f),0,0,5.0f,4,5);
     object Coop5(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,860.0f),0,0,5.0f,4,5);
-    object moneydisplay(&cat,&bg,&bg,sf::Vector2f(700.0f,200.0f),sf::Vector2f(0.0f,0.0f),0,0,0,0,0);
+    object moneydisplay(&cat,sf::Vector2f(350.0f,100.0f),money);
     object kop(&bg,&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f),0,0,0,0,0);
     object kop1(&bg,&bg,&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f),0,0,0,0,0);
     object kop2(&bg,&bg,&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(1900.0f,0.0f),0,0,0,0,0);
@@ -87,6 +89,8 @@ int main()
             }
 
         }
+
+
         player1.update(deltatime,movespeed,turn,*moneypoint);
         //Barnn.getcollider().checkcollider(player1.getcollider(),1.0f);
        // Coop.getcollider().checkcollider(player1.getcollider(),1.0f);
@@ -123,7 +127,7 @@ int main()
         Coop4.Draw(window);
         Coop5.Draw(window);
         player1.Draw(window);
-        moneydisplay.Draw(window);
+        moneydisplay.Draw(window,money);
         window.display();
         turn++;
 
