@@ -60,12 +60,6 @@ int main()
      ,object(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,680.0f),0,0,5.0f,4,5)
      ,object(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,770.0f),0,0,5.0f,4,5)
      ,object(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,860.0f),0,0,5.0f,4,5)};
-    /*object Coop(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,410.0f),0,0,5.0f,9,10);
-    object Coop1(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,500.0f),0,0,5.0f,4,5);
-    object Coop2(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,590.0f),0,0,5.0f,4,5);
-    object Coop3(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,680.0f),0,0,5.0f,4,5);
-    object Coop4(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,770.0f),0,0,5.0f,4,5);
-    object Coop5(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,860.0f),0,0,5.0f,4,5);*/
     object moneydisplay(&dismoney,sf::Vector2f(400.0f,100.0f),money);
     object kop(&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f),0,0,0,0,0);
     object kop1(&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f),0,0,0,0,0);
@@ -103,13 +97,9 @@ int main()
         kop2.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop3.getcollider().checkcollider(player1.getcollider(),1.0f);
         moneydisplay.getcollider().checkcollider(player1.getcollider(),1.0f);
-        cooparray[0].getcollider().checkcolliderforplant(player1.getcollider());
-        cooparray[0].plantorbuild(player1,texx.textarray,timeplant,clockforplant,*moneypoint);
-        cooparray[1].plantorbuild(player1,texx.textarray,timeplant,clockforplant,*moneypoint);
-        cooparray[2].plantorbuild(player1,texx.textarray,timeplant,clockforplant,*moneypoint);
-        cooparray[3].plantorbuild(player1,texx.textarray,timeplant,clockforplant,*moneypoint);
-        cooparray[4].plantorbuild(player1,texx.textarray,timeplant,clockforplant,*moneypoint);
-        cooparray[5].plantorbuild(player1,texx.textarray,timeplant,clockforplant,*moneypoint);
+        for(int j=0;j<6;j++){
+            cooparray[j].plantorbuild(player1,texx.textarray,timeplant,clockforplant,*moneypoint);
+        }
        /* if(Coop.getcollider().checkcolliderforplant(player1.getcollider()))
         {
             cout<<"true"<<endl;
@@ -124,12 +114,9 @@ int main()
         kop1.Draw(window);
         kop2.Draw(window);
         kop3.Draw(window);
-        cooparray[0].Draw(window);
-        cooparray[1].Draw(window);
-        cooparray[2].Draw(window);
-        cooparray[3].Draw(window);
-        cooparray[4].Draw(window);
-        cooparray[5].Draw(window);
+        for(int j=0;j<6;j++){
+            cooparray[j].Draw(window);
+        }
         player1.Draw(window);
         moneydisplay.Draw(window,money);
         window.display();
