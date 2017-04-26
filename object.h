@@ -4,14 +4,18 @@
 #include "collider.h"
 #include<SFML/Graphics.hpp>
 #include <iostream>
+#include "select.h"
 class object
 {
     public:
         object(sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,int first,float timef,int priceplant,int pricesell);
+        object(sf::Texture* textarrayin,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,int first,float timef,int priceplant,int pricesell);
+        void plantorbuild(Player player,sf::Texture *textarrayin,sf::Time timep,sf::Clock clockp,int &money);
         virtual ~object();
         void Draw(sf::RenderWindow &window);
         collider getcollider(){return collider(body);}
         void plantorbuild(Player player,sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Time timep,sf::Clock clockp,int &money);
+        void checkplant(tex texx,Player player,sf::Texture* texture1);
 
     protected:
 
@@ -37,6 +41,17 @@ class object
 
     }
 }*/
+object:: object(sf::Texture *textarrayin,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,int first,float timef,int priceplant,int pricesell){
+    body.setSize(sizee);
+    body.setOrigin(sizee/2.0f);
+    body.setTexture(&textarrayin[0]);
+    body.setPosition(position);
+    full=fullnumber;
+    timeforplant=timef;
+    firsttime=first;
+    priceobjecttoplant=priceplant;
+    priceobjecttosell=pricesell;
+}
 object:: object(sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,int first,float timef,int priceplant,int pricesell)//,sf::RenderWindow &window,int mapcheck[][])
 {
     body.setSize(sizee);
@@ -53,6 +68,8 @@ object:: object(sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture
 
 
 }
+
+
 void object::Draw(sf::RenderWindow &window)
 {
     window.draw(body);
@@ -110,6 +127,81 @@ if(getcollider().checkcolliderforplant(player.getcollider()))
 
         }
 }
-
 }
+
+void object::plantorbuild(Player player,sf::Texture *textarrayin,sf::Time timep,sf::Clock clockp,int &money)
+{
+    float timecheck;
+     timep=clockp.getElapsedTime();
+            timecheck=timep.asSeconds();
+            if(timeforplant<=(timecheck-timedoing)&&full==1)
+            {
+                //cout<<"YOUR FUCKING PLANT READY TO COLLECT "<<endl;
+                body.setTexture(&textarrayin[2]);
+            }
+if(getcollider().checkcolliderforplant(player.getcollider()))
+{
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::O)&&full==0)
+        {
+            //cout<<"EIEI"<<endl;
+            if(firsttime==0&&((money-priceobjecttoplant)>=0))
+            {
+                timep=clockp.getElapsedTime();
+                body.setTexture(&textarrayin[1]);
+                full=1;
+                cout<<"FULL = "<<full<<endl;
+                timedoing=timep.asSeconds();
+                cout<<"Time = "<<timep.asSeconds()<<endl;
+                cout<<"YOU HAVE PLANT YOUR FUCKING SEED "<<endl;
+                firsttime=1;
+                money-=priceobjecttoplant;
+            }
+
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)&&full==1)
+        {
+            timep=clockp.getElapsedTime();
+            timecheck=timep.asSeconds();
+            cout<<timecheck<<endl;
+            if(timeforplant<=(timecheck-timedoing))
+            {
+                body.setTexture(&textarrayin[0]);
+                full=0;
+                cout<<"FULL = "<<full<<endl;
+                firsttime=0;
+                 cout<<"Time = "<<timep.asSeconds()<<endl;
+                 cout<<"CONGRATULATION YOU GOT FUCKING PLANT FOR YOU "<<endl;
+                 money+=priceobjecttosell;
+                 cout<<"YOUR FUCKING MONEY = "<<money<<endl;
+            }
+
+        }
+}
+}
+
+void object::checkplant(tex texx,Player player,sf::Texture* texture1)
+{
+    if(getcollider().checkcolliderforplant(player.getcollider()))
+    {
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)&&full==0)
+        {
+
+
+            body.setTexture(texture1);
+               full=1;
+
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+        {
+                //body.setTexture(texx.gettexture(1));
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
+        {
+               // body.setTexture(texx.gettexture(1));
+        }
+    }
+}
+
+
 #endif // OBJECT_H
