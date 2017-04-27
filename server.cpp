@@ -5,14 +5,17 @@
 #define CHARLEN 150
 using namespace std;
 //class userdb
+int getmoney(char*);
 typedef struct userdbs{
     char username[CHARLEN];
     char password[CHARLEN];
     char gamedata[CHARLEN];
+    int money;
 }DBuser;
 class userdb{
 private:
     DBuser dbuser[CHARLEN];
+    char ranking[150];
     int numid;
 public:
     userdb();
@@ -25,7 +28,13 @@ public:
     void save(char *data,int id);
     void showall();
     void changepass(char *user,char *password);
+    void sortting();
+    char* getranking();
 };
+char* userdb::getranking(){
+    sprintf(ranking, "%s %d/%s %d/%s %d/%s %d/%s %d/",dbuser[0].username,dbuser[0].money,dbuser[1].username,dbuser[1].money,dbuser[2].username,dbuser[2].money,dbuser[3].username,dbuser[3].money,dbuser[4].username,dbuser[4].money);
+    return ranking;
+}
 void userdb::changepass(char *user,char *password){
     int i;
     for(i=0;i<numid;i++){
@@ -45,12 +54,31 @@ void userdb::save(char *data,int id){
     strcpy(dbuser[id].gamedata,data);
 }
 void userdb::saveuserdb(){
+    int i;
     ofstream userfile;
     userfile.open ("db/user.txt");
-    for(int i =0;i<numid;i++){
+    for(i =0;i<numid-1;i++){
         userfile << dbuser[i].username<<" "<<dbuser[i].password<<" "<<dbuser[i].gamedata<<endl;
     }
+    userfile << dbuser[i].username<<" "<<dbuser[i].password<<" "<<dbuser[i].gamedata;
     userfile.close();
+}
+void userdb::sortting(){
+    int c;
+    for(int j=0;j<numid;j++){
+            c=0;
+    for(int i=numid;i>0;i--){
+        if(dbuser[i].money>dbuser[i-1].money){
+            swap(dbuser[i].money,dbuser[i-1].money);
+            swap(dbuser[i].username,dbuser[i-1].username);
+            swap(dbuser[i].password,dbuser[i-1].password);
+            swap(dbuser[i].gamedata,dbuser[i-1].gamedata);
+            c++;
+        }
+    }
+    if(c==0)break;
+    }
+    saveuserdb();
 }
 char* userdb::getgamedata(int id){
     if(id != -1)return dbuser[id].gamedata;
@@ -85,12 +113,13 @@ void userdb::loaduserdb(){
             userfile >> dbuser[i].username;
             userfile >> dbuser[i].password;
             userfile >> dbuser[i].gamedata;
+            dbuser[i].money = getmoney(dbuser[i].gamedata);
             i++;
         }
     }
-    numid=i-1;
+    numid=i;
     userfile.close();
-    cout<<"Loaded user data "<<numid+1<<" user"<<endl;
+    cout<<"Loaded user data "<<numid<<" user"<<endl;
 }
 void userdb::registe(char *username,char *password){
     strcpy(dbuser[numid].username,username);
@@ -176,6 +205,15 @@ void tcp::senddata(char *sdata){
     }
 }
 //end class tcp
+
+int getmoney(char* data){
+    char temp[100]="";
+    for(int i=0;i<200;i++){
+        if(data[i]=='/')break;
+        temp[i]=data[i];
+    }
+    return atoi(temp);
+}
 int main()
 {
     cout<<"Server starting"<<endl;
@@ -186,6 +224,7 @@ int main()
     //object userdb
     userdb userdata;
     userdata.loaduserdb();
+    userdata.sortting();
     //end loaduserdata
     //listener tcp
     int mode=1;
@@ -238,6 +277,10 @@ int main()
         tcpsocket.senddata("password worng");
         }
     }
+    if(strcmp(type,"4")==0){
+        cout<<userdata.getranking();
+        tcpsocket.senddata(userdata.getranking());
+    }
     }else{
     tcpsocket.senddata("username error");
     }
@@ -248,8 +291,8 @@ int main()
         cin>>mode;
         switch(mode){
         case 1:userdata.showall();break;
-        case 2:cout<<"Add new(username password) : ";cin>>username>>password;userdata.registe(username,password);break;
-        case 3:cout<<"Change pass (username new_password) : ";cin>>username>>password;userdata.changepass(username,password);break;
+        case 2:cout<<"Add new(username password) : ";cin>>username>>password;userdata.registe(username,password);userdata.sortting();break;
+        case 3:cout<<"Change pass (username new_password) : ";cin>>username>>password;userdata.changepass(username,password);userdata.sortting();break;
         case 4:;break;
         case 5:goto normal;;break;
         case 6:return 0;

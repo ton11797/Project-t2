@@ -205,10 +205,27 @@ int Menu::open(sf::RenderWindow &window,char *userin,char *passin,int *userdatai
                         break;
                     case 2:
                         std::cout << "Ranking button has been pressed "<< std::endl;
+                        tcpsocket= new(tcp);
+                        strcpy(type,"4");
+                        if(tcpsocket->con==1)
+                        {
+                            tcpsocket->sent(type);
+                            tcpsocket->sent(" ");
+                            tcpsocket->sent(" ");
+                            tcpsocket->receive();
+                            strcpy(re,tcpsocket->getdata());
+                            delete(tcpsocket);
+                            cout<<re;
+                        }
+                        else
+                        {
+                            waitenter(window,cantconnect);
+                        }
                         break;
                     case 3:
                         num=0;
                         window.close();
+                        goto endgame;
                         break;
                     }
                     break;
@@ -227,6 +244,8 @@ int Menu::open(sf::RenderWindow &window,char *userin,char *passin,int *userdatai
     }
     gamestart:;
     return num;
+    endgame:;
+    return -1;
 }
 //end class menu
 //function
@@ -315,6 +334,7 @@ int main()
     char user[200],pass[200],type[200],datasave[200];
     num = menu.open(windowmenu,user,pass,userdata);
     ///////////////////////game start//////////////////////////////
+    if(num!=-1){
     int dataint[200];
     gamestart gm;
     /*strcpy(userdata,"-1/-1/-1/-1/-1/-1/-1/-1/0/0/-1/-1/-1/-1/1/0/-1/-1/-1/-1/2/2/-1/-1/-1/-1/3/3/-1/-1/-1/-1/4/4/-1/-1");
@@ -327,8 +347,6 @@ int main()
     tcpsocket->sent(pass);
     tcpsocket->sent(datasave);
     cout<<"Sent"<<datasave;
+    }
     return 0;
-
-
-
 }
