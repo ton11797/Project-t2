@@ -1,9 +1,10 @@
+#define COOPNUM 36
 class gamestart
 {
 private:
     sf::RenderWindow window;
     inventory inv;
-    float movespeed=0.2;
+    float movespeed=2;
     int turn=0;
     sf::Texture playertexture,bg,Barn,dismoney;
     tex texx;
@@ -21,12 +22,47 @@ void gamestart::run()
 {
     animetion animation(&playertexture,sf::Vector2u(4,4),0.3f);
     object Barnn(&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f),0,0,0,0,0);
-    object cooparray[6] = {object(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,410.0f),0,0,5.0f,9,10),
-                           object(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,500.0f),0,0,5.0f,4,5)
-                           ,object(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,590.0f),0,0,5.0f,4,5)
-                           ,object(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,680.0f),0,0,5.0f,4,5)
-                           ,object(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,770.0f),0,0,5.0f,4,5)
-                           ,object(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,860.0f),0,0,5.0f,4,5)
+    plantob cooparray[COOPNUM] = {plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,410.0f),0,0,5.0f,9,10)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,500.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,590.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,680.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,770.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,860.0f),0,0,5.0f,4,5)
+
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(170.0f,410.0f),0,0,5.0f,9,10)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(170.0f,500.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(170.0f,590.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(170.0f,680.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(170.0f,770.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(170.0f,860.0f),0,0,5.0f,4,5)
+
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(260.0f,410.0f),0,0,5.0f,9,10)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(260.0f,500.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(260.0f,590.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(260.0f,680.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(260.0f,770.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(260.0f,860.0f),0,0,5.0f,4,5)
+
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(350.0f,410.0f),0,0,5.0f,9,10)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(350.0f,500.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(350.0f,590.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(350.0f,680.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(350.0f,770.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(350.0f,860.0f),0,0,5.0f,4,5)
+
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(440.0f,410.0f),0,0,5.0f,9,10)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(440.0f,500.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(440.0f,590.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(440.0f,680.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(440.0f,770.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(440.0f,860.0f),0,0,5.0f,4,5)
+
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(530.0f,410.0f),0,0,5.0f,9,10)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(530.0f,500.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(530.0f,590.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(530.0f,680.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(530.0f,770.0f),0,0,5.0f,4,5)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(530.0f,860.0f),0,0,5.0f,4,5)
                           };
     object moneydisplay(&dismoney,sf::Vector2f(400.0f,100.0f),*(inv.getmoney()));
     object kop(&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f),0,0,0,0,0);
@@ -62,7 +98,7 @@ void gamestart::run()
         kop2.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop3.getcollider().checkcollider(player1.getcollider(),1.0f);
         moneydisplay.getcollider().checkcollider(player1.getcollider(),1.0f);
-        for(int j=0; j<6; j++)
+        for(int j=0; j<COOPNUM; j++)
         {
             cooparray[j].plantorbuild(player1,texx.textarray,timeplant,clockforplant,*(inv.getmoney()));
         }
@@ -72,7 +108,7 @@ void gamestart::run()
         kop1.Draw(window);
         kop2.Draw(window);
         kop3.Draw(window);
-        for(int j=0; j<6; j++)
+        for(int j=0; j<COOPNUM; j++)
         {
             cooparray[j].Draw(window);
         }

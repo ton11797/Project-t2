@@ -15,21 +15,13 @@ class object
         void Draw(sf::RenderWindow &window);
         void Draw(sf::RenderWindow &window,int money);
         collider getcollider(){return collider(body);}
-        void plantorbuild(Player player,sf::Texture* texture1,sf::Texture* texture2,sf::Texture* texture3,sf::Time timep,sf::Clock clockp,int &money);
         void checkplant(tex texx,Player player,sf::Texture* texture1);
 
     protected:
-
-    private:
         sf::RectangleShape body;
-        float timeforplant;
-        int full;
-        int type;
+    private:
+
         //char nameobject[20];
-        int priceobjecttoplant;
-        int priceobjecttosell;
-        int firsttime;
-        float timedoing;
         sf::Text text1;
         sf::Font font;
         bool ismoney;
@@ -51,11 +43,6 @@ object:: object(sf::Texture *textarrayin,sf::Vector2f sizee,sf::Vector2f positio
     body.setOrigin(sizee/2.0f);
     body.setTexture(&textarrayin[0]);
     body.setPosition(position);
-    full=fullnumber;
-    timeforplant=timef;
-    firsttime=first;
-    priceobjecttoplant=priceplant;
-    priceobjecttosell=pricesell;
 }
 object:: object(sf::Texture* texture1,sf::Vector2f sizee,int money)
 {
@@ -93,7 +80,28 @@ object::~object()
     //dtor
 }
 
-void object::plantorbuild(Player player,sf::Texture *textarrayin,sf::Time timep,sf::Clock clockp,int &money)
+
+class plantob:public object{
+private:
+    float timeforplant;
+    int full;
+    int type;
+    int firsttime;
+    float timedoing;
+    int priceobjecttoplant;
+    int priceobjecttosell;
+public:
+    plantob(sf::Texture *textarrayin,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,int first,float timef,int priceplant,int pricesell);
+    void plantorbuild(Player player,sf::Texture *textarrayin,sf::Time timep,sf::Clock clockp,int &money);
+};
+plantob::plantob(sf::Texture *textarrayin,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,int first,float timef,int priceplant,int pricesell):object(textarrayin,sizee,position,fullnumber,first,timef,priceplant,pricesell){
+    full=fullnumber;
+    timeforplant=timef;
+    firsttime=first;
+    priceobjecttoplant=priceplant;
+    priceobjecttosell=pricesell;
+}
+void plantob::plantorbuild(Player player,sf::Texture *textarrayin,sf::Time timep,sf::Clock clockp,int &money)
 {
     float timecheck;
     int ped=0;
@@ -168,29 +176,6 @@ if(getcollider().checkcolliderforplant(player.getcollider()))
 
         }
 }
-}
-
-void object::checkplant(tex texx,Player player,sf::Texture* texture1)
-{
-    if(getcollider().checkcolliderforplant(player.getcollider()))
-    {
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)&&full==0)
-        {
-
-
-            /*body.setTexture(texture1);
-               full=1;*/
-
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
-        {
-                //body.setTexture(texx.gettexture(1));
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
-        {
-               // body.setTexture(texx.gettexture(1));
-        }
-    }
 }
 
 
