@@ -127,7 +127,7 @@ gamestart::gamestart()
     player.setSize(sf::Vector2f(50.0f,70.0f));
     player.setOrigin(50.0f,50.0f);
     player.setPosition(500.0f,500.0f);
-    bg.loadFromFile("map.jpg");
+    bg.loadFromFile("resource/map.jpg");
     dismoney.loadFromFile("resource/money.png");
     playertexture.loadFromFile("resource/she.png");
     Barn.loadFromFile("resource/Barn.png");
