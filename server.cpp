@@ -32,7 +32,7 @@ public:
     char* getranking();
 };
 char* userdb::getranking(){
-    sprintf(ranking, "%s %d/%s %d/%s %d/%s %d/%s %d/",dbuser[0].username,dbuser[0].money,dbuser[1].username,dbuser[1].money,dbuser[2].username,dbuser[2].money,dbuser[3].username,dbuser[3].money,dbuser[4].username,dbuser[4].money);
+    sprintf(ranking, "1.%s %d\n2.%s %d\n3.%s %d\n4.%s %d\n5.%s %d\n",dbuser[0].username,dbuser[0].money,dbuser[1].username,dbuser[1].money,dbuser[2].username,dbuser[2].money,dbuser[3].username,dbuser[3].money,dbuser[4].username,dbuser[4].money);
     return ranking;
 }
 void userdb::changepass(char *user,char *password){
@@ -52,6 +52,7 @@ void userdb::showall(){
 }
 void userdb::save(char *data,int id){
     strcpy(dbuser[id].gamedata,data);
+    dbuser[id].money = getmoney(dbuser[id].gamedata);
 }
 void userdb::saveuserdb(){
     int i;
@@ -278,6 +279,7 @@ int main()
         }
     }
     if(strcmp(type,"4")==0){
+        userdata.sortting();
         cout<<userdata.getranking();
         tcpsocket.senddata(userdata.getranking());
     }

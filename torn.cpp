@@ -17,6 +17,7 @@ using namespace std;
 //function prototype
 void getuserinput(sf::RenderWindow &window,char *out,sf::Texture &texture);
 void waitenter(sf::RenderWindow &window,sf::Texture &texture);
+void showrank(sf::RenderWindow &window,sf::Texture &texture ,char*);
 //end function prototype
 //class menu
 Menu::Menu(float width, float height)
@@ -30,6 +31,7 @@ Menu::Menu(float width, float height)
     if(!registered.loadFromFile("resource\\registered.png"));
     if(!blank.loadFromFile("resource\\blank.png"));
     if(!cantconnect.loadFromFile("resource\\cantconnect.png"));
+    if(!ranking.loadFromFile("resource\\rank.png"));
     background.setTexture(texture);
     if (!font.loadFromFile("arial.ttf"))
     {
@@ -95,7 +97,8 @@ void Menu::MoveDown()
     }
 }
 
-int Menu::open(sf::RenderWindow &window,char *userin,char *passin,int *userdatain){
+int Menu::open(sf::RenderWindow &window,char *userin,char *passin,int *userdatain)
+{
     user=userin;
     pass=passin;
     userdata=userdatain;
@@ -216,6 +219,7 @@ int Menu::open(sf::RenderWindow &window,char *userin,char *passin,int *userdatai
                             strcpy(re,tcpsocket->getdata());
                             delete(tcpsocket);
                             cout<<re;
+                            showrank(window,ranking,re);
                         }
                         else
                         {
@@ -242,9 +246,11 @@ int Menu::open(sf::RenderWindow &window,char *userin,char *passin,int *userdatai
         draw(window);
         window.display();
     }
-    gamestart:;
+gamestart:
+    ;
     return num;
-    endgame:;
+endgame:
+    ;
     return -1;
 }
 //end class menu
@@ -322,6 +328,44 @@ void waitenter(sf::RenderWindow &window,sf::Texture &texture)
 outwait:
     ;
 }
+
+void showrank(sf::RenderWindow &window,sf::Texture &texture,char* re){
+    int n=0;
+    sf::String sentence;
+    sf::Text ranking;
+    sf::Font font;
+    font.loadFromFile("arial.ttf");
+    sf::Sprite background(texture);
+    ranking.setFont(font);
+    ranking.setString(re);
+    ranking.setCharacterSize(24);
+    ranking.setFillColor(sf::Color::White);
+    while (window.isOpen()&&n==0)
+    {
+        sf::Event eventrg;
+        while (window.pollEvent(eventrg))
+        {
+            switch(eventrg.type)
+            {
+            case sf::Event::Closed:
+                window.close();
+                break;
+            case sf::Event::KeyPressed:
+                if(eventrg.key.code == sf::Keyboard::Return)
+                {
+                    n++;
+                    break;
+                }
+            }
+            window.clear();
+            window.draw(background);
+            ranking.setPosition(600,280);
+            window.draw(ranking);
+            window.display();
+        }
+
+    }
+}
 //end function
 
 int main()
@@ -334,19 +378,20 @@ int main()
     char user[200],pass[200],type[200],datasave[200];
     num = menu.open(windowmenu,user,pass,userdata);
     ///////////////////////game start//////////////////////////////
-    if(num!=-1){
-    int dataint[200];
-    gamestart gm;
-    /*strcpy(userdata,"-1/-1/-1/-1/-1/-1/-1/-1/0/0/-1/-1/-1/-1/1/0/-1/-1/-1/-1/2/2/-1/-1/-1/-1/3/3/-1/-1/-1/-1/4/4/-1/-1");
-    num=split(userdata,dataint);*/
-    strcpy(datasave,gm.run(userdata));
-    strcpy(type,"3");
-    tcpsocket= new(tcp);
-    tcpsocket->sent(type);
-    tcpsocket->sent(user);
-    tcpsocket->sent(pass);
-    tcpsocket->sent(datasave);
-    cout<<"Sent"<<datasave;
+    if(num!=-1)
+    {
+        int dataint[200];
+        gamestart gm;
+        /*strcpy(userdata,"-1/-1/-1/-1/-1/-1/-1/-1/0/0/-1/-1/-1/-1/1/0/-1/-1/-1/-1/2/2/-1/-1/-1/-1/3/3/-1/-1/-1/-1/4/4/-1/-1");
+        num=split(userdata,dataint);*/
+        strcpy(datasave,gm.run(userdata));
+        strcpy(type,"3");
+        tcpsocket= new(tcp);
+        tcpsocket->sent(type);
+        tcpsocket->sent(user);
+        tcpsocket->sent(pass);
+        tcpsocket->sent(datasave);
+        cout<<"Sent"<<datasave;
     }
     return 0;
 }

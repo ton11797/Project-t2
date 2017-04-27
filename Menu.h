@@ -21,7 +21,7 @@ private:
     int *userdata,num;
 	tcp *tcpsocket;
     char *user,*pass;
-    sf::Texture texture,usertx,passtx,nouser,passworng,sameuser,registered,blank,cantconnect;
+    sf::Texture texture,usertx,passtx,nouser,passworng,sameuser,registered,blank,cantconnect,ranking;
 	sf::Text menu[MAX_NUMBER_OF_ITEMS];
     sf::Sprite background;
 };
