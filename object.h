@@ -8,15 +8,12 @@
 class object
 {
     public:
-        object(sf::Texture* textarrayin,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,int first,float timef,int priceplant,int pricesell);
+        object(sf::Texture* textarrayin,sf::Vector2f sizee,sf::Vector2f position);
         object(sf::Texture* texture1,sf::Vector2f sizee,int money);
-        void plantorbuild(Player player,sf::Texture *textarrayin,sf::Time timep,sf::Clock clockp,int &money);
         virtual ~object();
         void Draw(sf::RenderWindow &window);
         void Draw(sf::RenderWindow &window,int money);
         collider getcollider(){return collider(body);}
-        void checkplant(tex texx,Player player,sf::Texture* texture1);
-
     protected:
         sf::RectangleShape body;
     private:
@@ -37,7 +34,7 @@ class object
 
     }
 }*/
-object:: object(sf::Texture *textarrayin,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,int first,float timef,int priceplant,int pricesell){
+object:: object(sf::Texture *textarrayin,sf::Vector2f sizee,sf::Vector2f position){
     ismoney=0;
     body.setSize(sizee);
     body.setOrigin(sizee/2.0f);
@@ -83,77 +80,75 @@ object::~object()
 
 class plantob:public object{
 private:
-    float timeforplant;
+    float *timeforplant;
     int full;
     int type;
     int firsttime;
     float timedoing;
-    int priceobjecttoplant;
-    int priceobjecttosell;
+    int *priceobjecttoplant;
+    int *priceobjecttosell;
 public:
-    plantob(sf::Texture *textarrayin,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,int first,float timef,int priceplant,int pricesell);
-    void plantorbuild(Player player,sf::Texture *textarrayin,sf::Time timep,sf::Clock clockp,int &money);
+    plantob(sf::Texture *textarrayin,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,int first,float *timef,int *priceplant,int *pricesell);
+    void plantorbuild(Player player,sf::Texture *textarrayin,sf::Time timep,sf::Clock clockp,int *money);
 };
-plantob::plantob(sf::Texture *textarrayin,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,int first,float timef,int priceplant,int pricesell):object(textarrayin,sizee,position,fullnumber,first,timef,priceplant,pricesell){
+plantob::plantob(sf::Texture *textarrayin,sf::Vector2f sizee,sf::Vector2f position,int fullnumber,int first,float *timef,int *priceplant,int *pricesell):object(textarrayin,sizee,position){
+    type=1000;
     full=fullnumber;
     timeforplant=timef;
     firsttime=first;
     priceobjecttoplant=priceplant;
     priceobjecttosell=pricesell;
 }
-void plantob::plantorbuild(Player player,sf::Texture *textarrayin,sf::Time timep,sf::Clock clockp,int &money)
+void plantob::plantorbuild(Player player,sf::Texture *textarrayin,sf::Time timep,sf::Clock clockp,int *money)
 {
     float timecheck;
     int ped=0;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)&&full==0)
     {
         type=0;
-        type*=2;
         ped++;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)&&full==0)
     {
         type=1;
-        type*=2;
         ped++;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)&&full==0)
     {
         type=2;
-        type*=2;
         ped++;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)&&full==0)
     {
         type=3;
-        type*=2;
         ped++;
     }
-
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num5)&&full==0)
+    {
+        type=4;
+        ped++;
+    }
+    if(type!=1000){
      timep=clockp.getElapsedTime();
             timecheck=timep.asSeconds();
-            if(timeforplant<=(timecheck-timedoing)&&full==1)
+            if(timeforplant[type]<=(timecheck-timedoing)&&full==1)
             {
-                //cout<<"YOUR FUCKING PLANT READY TO COLLECT "<<endl;
-                body.setTexture(&textarrayin[2+type]);
+                body.setTexture(&textarrayin[2+type*2]);
             }
+    }
 if(getcollider().checkcolliderforplant(player.getcollider()))
 {
 
         if(ped!=0&&full==0)
         {
-            //cout<<"EIEI"<<endl;
-            if(firsttime==0&&((money-priceobjecttoplant)>=0))
+            if(firsttime==0&&((*money-priceobjecttoplant[type])>=0))
             {
                 timep=clockp.getElapsedTime();
-                body.setTexture(&textarrayin[1+type]);
+                body.setTexture(&textarrayin[1+type*2]);
                 full=1;
-               // cout<<"FULL = "<<full<<endl;
                 timedoing=timep.asSeconds();
-               // cout<<"Time = "<<timep.asSeconds()<<endl;
-               // cout<<"YOU HAVE PLANT YOUR FUCKING SEED "<<endl;
                 firsttime=1;
-                money-=priceobjecttoplant;
+               *money-=priceobjecttoplant[type];
             }
 
         }
@@ -161,17 +156,13 @@ if(getcollider().checkcolliderforplant(player.getcollider()))
         {
             timep=clockp.getElapsedTime();
             timecheck=timep.asSeconds();
-           // cout<<timecheck<<endl;
-            if(timeforplant<=(timecheck-timedoing))
+            if(timeforplant[type]<=(timecheck-timedoing))
             {
                 body.setTexture(&textarrayin[0]);
                 full=0;
-                //cout<<"FULL = "<<full<<endl;
                 firsttime=0;
-                // cout<<"Time = "<<timep.asSeconds()<<endl;
-                // cout<<"CONGRATULATION YOU GOT FUCKING PLANT FOR YOU "<<endl;
-                 money+=priceobjecttosell;
-                // cout<<"YOUR FUCKING MONEY = "<<money<<endl;
+                 *money+=priceobjecttosell[type];
+                type=1000;
             }
 
         }

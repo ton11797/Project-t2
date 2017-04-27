@@ -13,14 +13,14 @@ private:
 public:
     tex();
     ~tex();
-    sf::Texture textarray[10];
+    sf::Texture textarray[20];
     sf::Texture* gettexture(int i);
 };
 sf::Texture* tex::gettexture(int i){
     return &textarray[i];
 }
 tex::tex(){
-	for(int i=0;i<10;i++){
+	for(int i=0;i<=10;i++){
         char file[100];
         char buffer[1];
         sprintf(buffer, "%d", i);
