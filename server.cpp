@@ -2,7 +2,7 @@
 #include<iostream>
 #include<string.h>
 #include<fstream>
-#define CHARLEN 100
+#define CHARLEN 150
 using namespace std;
 //class userdb
 typedef struct userdbs{
@@ -95,7 +95,7 @@ void userdb::loaduserdb(){
 void userdb::registe(char *username,char *password){
     strcpy(dbuser[numid].username,username);
     strcpy(dbuser[numid].password,password);
-    strcpy(dbuser[numid].gamedata,"0/0/0/0/0/0/0/0/0");
+    strcpy(dbuser[numid].gamedata,"100/0/1/2/3/4/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1");
     numid++;
 }
 //end class userdb

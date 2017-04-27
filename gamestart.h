@@ -17,11 +17,13 @@ private:
     float timep[10]={5.0f,10.0f,15.0f,20.0f,25.0f,30.0f,35.0f,40.0f,45.0f,50.0f};
     int costplant[10]={5,10,15,20,25,30,35,40,45,50};
     int sellplant[10]={7,14,23,36,57,94,133,200,250,300};
+    char *datain;
+    int dataarray[200];
 public:
     gamestart();
-    void run();
+    char* run(int*);
 };
-void gamestart::run()
+char* gamestart::run(int *data)
 {
     animetion animation(&playertexture,sf::Vector2u(4,4),0.3f);
     object Barnn(&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f));
@@ -67,6 +69,11 @@ void gamestart::run()
                            ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(530.0f,770.0f),0,0,timep,costplant,sellplant)
                            ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(530.0f,860.0f),0,0,timep,costplant,sellplant)
                           };
+    for(int j=COOPNUM-1;j>0;j--){
+        cooparray[COOPNUM-(j+1)].loaddata(data[j],timeplant,clockforplant,texx.textarray);
+    }
+    inv.setmoney(data[COOPNUM]);
+    cout<<data[COOPNUM];
     object moneydisplay(&dismoney,sf::Vector2f(400.0f,100.0f),*(inv.getmoney()));
     object kop(&bg,sf::Vector2f(10.0f,1950.0f),sf::Vector2f(0.0f,0.0f));
     object kop1(&bg,sf::Vector2f(3950.0f,10.0f),sf::Vector2f(0.0f,0.0f));
@@ -103,7 +110,7 @@ void gamestart::run()
         moneydisplay.getcollider().checkcollider(player1.getcollider(),1.0f);
         for(int j=0; j<COOPNUM; j++)
         {
-            cooparray[j].plantorbuild(player1,texx.textarray,timeplant,clockforplant,(inv.getmoney()));
+            cooparray[j].plantorbuild(player1,texx.textarray,timeplant,clockforplant,(inv.getmoney()),inv.getinv());
         }
         window.draw(bgg);
         Barnn.Draw(window);
@@ -119,7 +126,19 @@ void gamestart::run()
         moneydisplay.Draw(window,*(inv.getmoney()));
         window.display();
         turn++;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        {
+        goto savegame;
+        }
     }
+    savegame:;
+    char dataout[1000],buffer[1000];
+    strcpy(dataout,cooparray[0].getdata());
+    for(int j=1;j<COOPNUM;j++){
+        strcat(dataout,cooparray[j].getdata());
+    }
+    sprintf(buffer, "%d%s", *(inv.getmoney()),dataout);
+    return buffer;
 }
 gamestart::gamestart()
 {

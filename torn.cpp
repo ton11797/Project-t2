@@ -10,7 +10,9 @@
 #include "object.h"
 #include "Player.h"
 #include "collider.h"
-
+#include "select.h"
+#include "inventory.h"
+#include "gamestart.h"
 using namespace std;
 //function prototype
 void getuserinput(sf::RenderWindow &window,char *out,sf::Texture &texture);
@@ -129,7 +131,7 @@ int Menu::open(sf::RenderWindow &window,char *userin,char *passin,int *userdatai
                         cout<<"password :"<<user<<endl;
                         getuserinput(window,pass,passtx);
                         cout<<"password :"<<pass<<endl;
-                        char type[100],re[100];
+                        char type[200],re[200];
                         strcpy(type,"2");
                         if(!(strcmp(user,"")==0 || strcmp(pass,"")==0))
                         {
@@ -308,13 +310,23 @@ int main()
     ///////////////////////game menu//////////////////////////////
     sf::RenderWindow windowmenu(sf::VideoMode(1500, 700), "Stardew walley!!");
     Menu menu(windowmenu.getSize().x, (windowmenu.getSize().y)/0.35);
-    int n=0,num=0,userdata[100];
-    char user[100],pass[100];
+    tcp *tcpsocket;
+    int n=0,num=0,userdata[200];
+    char user[200],pass[200],type[200],datasave[200];
     num = menu.open(windowmenu,user,pass,userdata);
-    for(int ii=0;ii<num;ii++){
-        cout<<userdata[ii]<<endl;
-    }
     ///////////////////////game start//////////////////////////////
+    int dataint[200];
+    gamestart gm;
+    /*strcpy(userdata,"-1/-1/-1/-1/-1/-1/-1/-1/0/0/-1/-1/-1/-1/1/0/-1/-1/-1/-1/2/2/-1/-1/-1/-1/3/3/-1/-1/-1/-1/4/4/-1/-1");
+    num=split(userdata,dataint);*/
+    strcpy(datasave,gm.run(userdata));
+    strcpy(type,"3");
+    tcpsocket= new(tcp);
+    tcpsocket->sent(type);
+    tcpsocket->sent(user);
+    tcpsocket->sent(pass);
+    tcpsocket->sent(datasave);
+    cout<<"Sent"<<datasave;
     return 0;
 
 

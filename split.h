@@ -4,10 +4,10 @@ using namespace std;
 
 int split(char word[],int *a)
 {
-    int positioncomma[100],valueofcomma=0,positionsplit=0;
+    int positioncomma[200],valueofcomma=0,positionsplit=0;
     node *t;
     ll A;
-    for(int i=0;i<100;i++)
+    for(int i=0;i<200;i++)
     {
 
         if(word[i]=='/')
@@ -19,8 +19,8 @@ int split(char word[],int *a)
     }
     for(int i=0;i<valueofcomma+1;i++)
     {
-        char copychar[100];
-        for(int j=0;j<100;j++)
+        char copychar[200];
+        for(int j=0;j<200;j++)
         {
             if(word[positionsplit]!='/'&&word[positionsplit]!='\0')
             {

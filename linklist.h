@@ -3,7 +3,7 @@
 using namespace std;
 class node{
 private:
-    char data[100];
+    char data[200];
     node *next;
 public:
     node(char []);

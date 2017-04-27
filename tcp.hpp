@@ -5,9 +5,9 @@ using namespace std;
 class tcp
 {
 private:
-    char data[100];
+    char data[150];
     int port;
-    char ip[100];
+    char ip[150];
     sf::TcpSocket socket;
     sf::Socket::Status status;
     std::size_t received;
@@ -22,7 +22,7 @@ public:
 tcp::tcp()
 {
     ifstream configfile;
-    char temp[100];
+    char temp[150];
     configfile.open("config.txt");
     if (configfile.is_open())
     {
@@ -59,7 +59,7 @@ void tcp::connect()
 }
 void tcp::sent(char *dataa)
 {
-    if (socket.send(dataa, 100) != sf::Socket::Done)
+    if (socket.send(dataa, 150) != sf::Socket::Done)
     {
         cout<<"sent error";
         con=0;
@@ -67,7 +67,7 @@ void tcp::sent(char *dataa)
 }
 void tcp::receive()
 {
-    if (socket.receive(data, 100, received) != sf::Socket::Done)
+    if (socket.receive(data, 150, received) != sf::Socket::Done)
     {
         cout<<"sent receive";
     }

@@ -17,7 +17,7 @@ public:
     sf::Font font;
 private:
 	int selectedItemIndex;
-    char type[100],re[100];
+    char type[200],re[200];
     int *userdata,num;
 	tcp *tcpsocket;
     char *user,*pass;
