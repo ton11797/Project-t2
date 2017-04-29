@@ -27,47 +27,47 @@ char* gamestart::run(int *data)
 {
     animetion animation(&playertexture,sf::Vector2u(4,4),0.3f);
     object Barnn(&Barn,sf::Vector2f(112.0f,128.0f),sf::Vector2f(1350.0f,150.0f));
-    plantob cooparray[COOPNUM] = {plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,410.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,500.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,590.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,680.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,770.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(80.0f,860.0f),0,0,timep,costplant,sellplant)
-
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(170.0f,410.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(170.0f,500.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(170.0f,590.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(170.0f,680.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(170.0f,770.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(170.0f,860.0f),0,0,timep,costplant,sellplant)
-
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(260.0f,410.0f),0,0,timep,costplant,sellplant)
+    plantob cooparray[COOPNUM] = {plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(260.0f,410.0f),0,0,timep,costplant,sellplant)
                            ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(260.0f,500.0f),0,0,timep,costplant,sellplant)
                            ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(260.0f,590.0f),0,0,timep,costplant,sellplant)
                            ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(260.0f,680.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(260.0f,770.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(260.0f,860.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(260.0f,320.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(1200.0f,410.0f),0,0,timep,costplant,sellplant)
 
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(350.0f,410.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(350.0f,500.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(350.0f,590.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(350.0f,680.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(350.0f,770.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(350.0f,860.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(420.0f,410.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(420.0f,500.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(420.0f,590.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(420.0f,680.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(420.0f,320.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(1200.0f,500.0f),0,0,timep,costplant,sellplant)
 
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(440.0f,410.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(440.0f,500.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(440.0f,590.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(440.0f,680.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(440.0f,770.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(440.0f,860.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(560.0f,410.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(560.0f,500.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(560.0f,590.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(560.0f,680.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(560.0f,320.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(1200.0f,590.0f),0,0,timep,costplant,sellplant)
 
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(530.0f,410.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(530.0f,500.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(530.0f,590.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(530.0f,680.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(530.0f,770.0f),0,0,timep,costplant,sellplant)
-                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(530.0f,860.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(720.0f,410.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(720.0f,500.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(720.0f,590.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(720.0f,680.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(720.0f,320.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(1200.0f,680.0f),0,0,timep,costplant,sellplant)
+
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(880.0f,410.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(880.0f,500.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(880.0f,590.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(880.0f,680.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(880.0f,320.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(1200.0f,320.0f),0,0,timep,costplant,sellplant)
+
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(1040.0f,410.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(1040.0f,500.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(1040.0f,590.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(1040.0f,680.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(1040.0f,320.0f),0,0,timep,costplant,sellplant)
+                           ,plantob(texx.textarray,sf::Vector2f(80.0f,80.0f),sf::Vector2f(1360.0f,320.0f),0,0,timep,costplant,sellplant)
                           };
     for(int j=COOPNUM-1;j>0;j--){
         cooparray[COOPNUM-(j+1)].loaddata(data[j],timeplant,clockforplant,texx.textarray);
@@ -103,6 +103,7 @@ char* gamestart::run(int *data)
 
 
         player1.update(deltatime,movespeed,turn);
+        Barnn.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop1.getcollider().checkcollider(player1.getcollider(),1.0f);
         kop2.getcollider().checkcollider(player1.getcollider(),1.0f);
@@ -159,7 +160,7 @@ gamestart::gamestart()
     player.setSize(sf::Vector2f(50.0f,70.0f));
     player.setOrigin(50.0f,50.0f);
     player.setPosition(500.0f,500.0f);
-    bg.loadFromFile("resource/map.jpg");
+    bg.loadFromFile("resource/map.png");
     dismoney.loadFromFile("resource/money.png");
     playertexture.loadFromFile("resource/she.png");
     Barn.loadFromFile("resource/Barn.png");
